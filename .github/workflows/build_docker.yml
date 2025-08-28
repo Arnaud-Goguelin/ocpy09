@@ -20,7 +20,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: ./litrevu
-          file: Dockerfile
+          file: ./litrevu/Dockerfile
           push: false
           tags: litrevu:test
 
