@@ -2,13 +2,9 @@ name: Build docker image
 run-name: ${{ github.actor }} ensures Dockerfile works well
 
 on:
-    push:
-      branches:
-        - main
-        - develop
     pull_request:
       branches:
-        - develop
+        - main
 
 jobs:
   build-docker:
