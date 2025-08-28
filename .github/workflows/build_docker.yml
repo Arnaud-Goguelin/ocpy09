@@ -1,0 +1,27 @@
+name: Build docker image
+run-name: ${{ github.actor }} ensures Dockerfile works well
+
+on:
+    push:
+      branches:
+        - main
+        - develop
+    pull_request:
+      branches:
+        - develop
+
+jobs:
+  build-docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: Dockerfile
