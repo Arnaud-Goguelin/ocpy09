@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  db:
+    container_name: litrevu_sqlite_db
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      # allows SQLite DB persistence
+      - ./data:/usr/src/app/data
+    environment:
+      - DEBUG=False
