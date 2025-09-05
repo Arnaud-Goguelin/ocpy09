@@ -19,8 +19,8 @@ jobs:
       - name: Build Docker image
         uses: docker/build-push-action@v5
         with:
-          context: ./litrevu
-          file: ./litrevu/Dockerfile
+          context: .
+          file: ./Dockerfile
           push: false
           tags: litrevu:test
 
