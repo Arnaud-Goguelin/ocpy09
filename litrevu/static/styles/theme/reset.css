@@ -1,0 +1,48 @@
+* {
+    box-sizing: border-box;
+}
+
+html,
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+input {
+    margin: 0;
+    padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    font-size: inherit;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+button {
+    background: none;
+}
+
+button,
+input,
+select,
+textarea {
+    appearance: none;
+    border: none;
+}
+
+:focus-visible {
+    outline: none;
+}

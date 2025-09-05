@@ -1,0 +1,5 @@
+.primary-btn {
+    background-color: var(--high-light);
+    padding: var(--spacing-sm);
+    border-radius: var(--border-radius-lg);
+}
