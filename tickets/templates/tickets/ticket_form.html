@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Créer un ticket - LitReview{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/ticket_form.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="flex --column --align-start">
+    <h2 class="headline-xl mb-lg">Créer un ticket</h2>
+
+    <form class="form-global width-100" method="post" enctype="multipart/form-data">
+        {% csrf_token %} 
+        <div class="mb-md width-50">
+            <label class="block mb-xs" for="id_title">Titre</label>
+            <input class="form-input"
+                   type="text"
+                   name="title"
+                   id="id_title"
+                   placeholder="Comment est tel livre?"
+                   required
+            >
+            {% if form.title.errors %}
+            <span>{{ form.title.errors.0 }}</span>
+            {% endif %}
+        </div>
+
+        <div class="mb-md width-80">
+            <label class="block mb-xs" for="id_description">Description</label>
+            <textarea class="from-text-area"
+                    name="description"
+                    id="id_description"
+                    placeholder="A ceux qui ont déjà lu tel livre, qu'en pensez-vous ?"
+                    rows="6"
+            ></textarea>
+            {% if form.description.errors %}
+            <span>{{ form.description.errors.0 }}</span>
+            {% endif %}
+        </div>
+
+        <div>
+            <div class="mb-md">
+                <label class="block mb-xs" for="id_image">
+                    Télécharger une image
+                </label>
+                <input
+                        class="form-input"
+                        type="file"
+                        name="image"
+                        id="id_image"
+                        accept="image/*"
+                >
+            </div>
+
+            <div class=" flex --flex-start mb-md">
+                <button class="primary-btn" type="submit">
+                    <a href="{% url 'tickets:list' %}">
+                        Annuler
+                    </a>
+                </button>
+                <button class="primary-btn ml-lg" type="submit">
+                    Envoyer
+                </button>
+            </div>
+        </div>
+    </form>
+</section>
+{% endblock %}

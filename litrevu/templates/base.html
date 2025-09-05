@@ -1,16 +1,38 @@
 <!DOCTYPE html>
+{% load static %}
+
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}LitRevu{% endblock %}</title>
+    <title>{% block title %}LitReview{% endblock %}</title>
+    <!--    shared css here -->
+    <link rel="stylesheet" href="{% static 'styles/theme/reset.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/theme/colors.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/theme/font-face.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/theme/typography.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/theme/spacing.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/theme/scaling.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/theme/layout.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/components/button.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/css/header.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/css/footer.css' %}">
+
+    <!--    specific css here -->
     {% block css %}
-<!--    import css here -->
     {% endblock %}
 </head>
 <body>
-    <main>
-        {% block content %}{% endblock %}
-    </main>
+{% include "header.html" %}
+    <div class="app-container">
+        <main>
+            <div class="p-2xl">
+            {% block content %}{% endblock %}
+            </div>
+        </main>
+    </div>
+
+{% include "footer.html" %}
 </body>
 </html>
