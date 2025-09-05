@@ -1,8 +1,10 @@
 :root {
-    --white: #ffffff;
-    --grey: #D7DDE6;
-    --grey-light: #ECEFF3;
-    --dark: #171717;
-    --dark-cyan: #28555E;
-    --high-light: #d29500;
+    --color-white: #ffffff;
+    --color-grey: #D7DDE6;
+    --color-grey-light: #ECEFF3;
+    --color-dark: #171717;
+    --color-dark-cyan: #28555E;
+    --color-high-light: #d29500;
+    --color-accent: #FAF5E6;
+    --color-error: #990000;
 }

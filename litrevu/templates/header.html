@@ -1,9 +1,14 @@
 <header class="header flex --space-between p-md">
     <h1 class="headline-xl"><a href="#">LITReview</a></h1>
-    <nav>
-        <a class="headline-md m-sm" href="#">Flux</a>
-        <a class="headline-md m-sm" href="#">Posts</a>
-        <a class="headline-md m-sm" href="#">Abonnements</a>
-        <a class="headline-md m-sm" href="#">Se déconnecter</a>
+    <nav class="header-nav flex">
+        {% if user.is_authenticated %}
+            <a href="#">Flux</a>
+            <a href="#">Posts</a>
+            <a href="#">Abonnements</a>
+            <a href="{% url 'authentication:logout' %}">Se déconnecter</a>
+        {% else %}
+            <a href="{% url 'authentication:login' %}">Se connecter</a>
+        {% endif %}
     </nav>
+
 </header>

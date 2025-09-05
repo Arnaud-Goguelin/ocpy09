@@ -42,6 +42,7 @@ exclude = [
     "old",
     "__init__.py",
     "*.pyc",
+    "*/migrations/"
 ]
 
 [tool.ruff.lint]

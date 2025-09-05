@@ -1,4 +1,4 @@
 .app-container {
-    background-color: var(--grey-light);
-    color: var(--dark);
+    background-color: var(--color-grey-light);
+    color: var(--color-dark);
 }

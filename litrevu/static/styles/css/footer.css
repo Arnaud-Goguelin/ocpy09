@@ -1,4 +1,4 @@
 .footer {
-    background-color: var(--dark-cyan);
-    color: var(--white);
+    background-color: var(--color-dark-cyan);
+    color: var(--color-white);
 }

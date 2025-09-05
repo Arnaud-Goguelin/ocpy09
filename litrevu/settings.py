@@ -10,7 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
-
 from pathlib import Path
 
 
@@ -56,6 +55,8 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+AUTH_USER_MODEL = "authentication.User"
 
 ROOT_URLCONF = "litrevu.urls"
 
