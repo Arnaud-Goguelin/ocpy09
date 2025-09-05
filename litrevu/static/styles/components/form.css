@@ -29,3 +29,8 @@
     color: var(--color-error);
     margin-top: var(--spacing-sm);
 }
+
+.form-error {
+    color: var(--color-error);
+    margin-top: var(--spacing-sm);
+}
