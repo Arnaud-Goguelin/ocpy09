@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% block title %}Login - LitReview{% endblock %}
+
 {% block content %}
 <section class="flex --column --align-start">
     <h2 class="headline-xl mb-lg">Connexion</h2>
@@ -8,12 +10,14 @@
     <form class="flex --column --space-evenly --align-start" method="post">
         {% csrf_token %}
         <div>
-            <label class="form-label" for="id_username">Nom d'utilisateur</label>
-            <input class="form-input" id="id_username">
+            <label class="form-label" for="id_username_login">Nom d'utilisateur</label>
+            <input class="form-input" id="id_username_login" name="username" type="text" placeholder="Bob"
+                   required>
         </div>
                 <div>
-            <label class="form-label" for="id_password">Mot de passe</label>
-            <input class="form-input" id="id_password">
+            <label class="form-label" for="id_password_login">Mot de passe</label>
+            <input class="form-input" id="id_password_login" name="password" type="password" placeholder="********"
+                   required>
         </div>
         <button class="primary-btn" type="submit">Se connecter</button>
     </form>

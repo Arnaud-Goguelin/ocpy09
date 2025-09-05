@@ -23,3 +23,8 @@
     border-radius: var(--border-radius-lg);
     width: 100%;
 }
+
+.form-error {
+    color: var(--color-error);
+    margin-top: var(--spacing-sm);
+}

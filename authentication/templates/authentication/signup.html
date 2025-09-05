@@ -5,8 +5,7 @@
 {% block content %}
 <section class="flex --column --align-start">
     <h2 class="headline-xl mb-lg">Inscription</h2>
-        <div class="flex">
-
+    <div class="flex">
         <form class="flex --column --space-evenly --align-start" method="post">
             {% csrf_token %}
 
@@ -19,7 +18,7 @@
             </div>
 
             <div class="mb-md">
-                <label class="form-label">Mot de passe</label>
+                <label class="form-label" >Mot de passe</label>
                 {{ form.password1 }}
                 {% if form.password1.errors %}
                     <span class="form-error">{{ form.password1.errors.0 }}</span>
@@ -35,15 +34,14 @@
             </div>
 
             {% if form.non_field_errors %}
-                <div class="form-error mb-md">
+                <div class="form-error bold mb-md">
                     {{ form.non_field_errors }}
                 </div>
             {% endif %}
-            
-            <a class="secondary-btn mr-3xl" href="{% url 'authentication:login' %}">Déjà un compte ? Se connecter</a>
-            <button class="primary-btn" type="submit">S'inscrire</button>
+
+            <button class="primary-btn mb-lg" type="submit">S'inscrire</button>
+            <a class="secondary-btn" href="{% url 'authentication:login' %}">Déjà un compte ? Se connecter</a>
         </form>
     </div>
-
 </section>
 {% endblock %}
