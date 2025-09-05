@@ -24,13 +24,10 @@ class Ticket(models.Model):
          assigned when the ticket is created.
     :type time_created: datetime
     """
+
     title = models.CharField("Title", max_length=128)
     description = models.TextField("Description", max_length=2048, blank=True)
-    user = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
-        related_name="tickets"
-        )
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="tickets")
     time_created = models.DateTimeField("Created the", auto_now_add=True)
 
     class Meta:
@@ -40,4 +37,3 @@ class Ticket(models.Model):
 
     def __str__(self):
         return f"Ticket: {self.title}"
-
