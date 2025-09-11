@@ -5,9 +5,9 @@
             <a href="#">Flux</a>
             <a href="#">Posts</a>
             <a href="#">Abonnements</a>
-            <a href="{% url 'authentication:logout' %}">Se déconnecter</a>
+            <a href="{{ url('authentication:logout') }}">Se déconnecter</a>
         {% else %}
-            <a href="{% url 'authentication:login' %}">Se connecter</a>
+            <a href="{{ url('authentication:login')}}">Se connecter</a>
         {% endif %}
     </nav>
 
