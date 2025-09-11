@@ -15,6 +15,7 @@ def environment(**options):
     )
     return env
 
+
 def user_context(request):
-    """Context processor pour rendre 'user' disponible dans Jinja2"""
-    return {'user': request.user if hasattr(request, 'user') else None}
+    """Context processor to pass 'user' objet in Jinja2"""
+    return {"user": request.user if hasattr(request, "user") else None}

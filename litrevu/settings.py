@@ -64,21 +64,21 @@ TEMPLATES = [
     {
         "BACKEND": "django.template.backends.jinja2.Jinja2",
         # even with APP_DIRS = True,
-        "DIRS": [BASE_DIR / "litrevu" /"jinja2"],
+        "DIRS": [BASE_DIR / "litrevu" / "jinja2"],
         "APP_DIRS": True,
         "OPTIONS": {
             "auto_reload": True,
             "environment": "litrevu.jinja2.environment",
             "context_processors": [
-                            "django.template.context_processors.request",
-                            "django.contrib.auth.context_processors.auth",
-                            "django.contrib.messages.context_processors.messages",
-                        ]
-            },
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
+            ],
         },
+    },
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / "litrevu" /"dtl"],
+        "DIRS": [BASE_DIR / "litrevu" / "dtl"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -87,7 +87,7 @@ TEMPLATES = [
                 "django.contrib.messages.context_processors.messages",
             ],
         },
-    }
+    },
 ]
 
 WSGI_APPLICATION = "litrevu.wsgi.application"

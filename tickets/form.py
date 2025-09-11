@@ -6,7 +6,13 @@ from .models import Ticket
 class CustomTicketForm(forms.ModelForm):
     title = forms.CharField(
         max_length=200,
-        widget=forms.TextInput(attrs={"class": "form-input", "placeholder": "Titre du livre", "id": "id_title"}),
+        widget=forms.TextInput(
+            attrs={
+                "class": "form-input",
+                "placeholder": "Titre du livre",
+                "id": "id_title",
+            }
+        ),
         label="Titre",
     )
     description = forms.CharField(
@@ -22,7 +28,13 @@ class CustomTicketForm(forms.ModelForm):
         required=False,
     )
     image = forms.ImageField(
-        widget=forms.FileInput(attrs={"class": "form-input", "accept": "image/webp,image/png", "id": "id_image"}),
+        widget=forms.FileInput(
+            attrs={
+                "class": "form-input",
+                "accept": "image/webp,image/png",
+                "id": "id_image",
+            }
+        ),
         label="Télécharger une image",
         required=False,
     )
