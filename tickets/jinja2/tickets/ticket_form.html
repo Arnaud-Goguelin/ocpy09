@@ -20,7 +20,6 @@
     </h2>
 
     <form class="form-global width-100" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token(request) }}">
 
 <!--        title field-->
         {{ render_field(form.title) }}
@@ -33,9 +32,9 @@
 ) }}
 
 <!--        error displaying in form-->
-        {% if form.non_field_errors %}
+        {% if form.non_field_errors() %}
             <div class="form-error bold mb-md">
-                {% for error in form.non_field_errors %}
+                {% for error in form.non_field_errors() %}
                     <div>{{ error }}</div>
                 {% endfor %}
             </div>
