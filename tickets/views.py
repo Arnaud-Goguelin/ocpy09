@@ -2,6 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
+from .form import CustomTicketForm
 from .models import Ticket
 
 
@@ -12,7 +13,8 @@ class TicketListView(LoginRequiredMixin, ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        return Ticket.objects.select_related("user")
+        queryset = super().get_queryset()
+        return queryset.filter(user=self.request.user)
 
 
 class TicketDetailView(LoginRequiredMixin, DetailView):
@@ -21,10 +23,10 @@ class TicketDetailView(LoginRequiredMixin, DetailView):
     context_object_name = "ticket"
 
 
-class TicketCreateView(CreateView):
+class TicketCreateView(LoginRequiredMixin, CreateView):
     model = Ticket
+    form_class = CustomTicketForm
     template_name = "tickets/ticket_form.html"
-    fields = ["title", "description"]
     success_url = reverse_lazy("tickets:list")
 
     def form_valid(self, form):
