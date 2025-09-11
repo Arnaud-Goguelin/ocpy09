@@ -37,11 +37,12 @@ class TicketCreateView(LoginRequiredMixin, CreateView):
 class TicketUpdateView(LoginRequiredMixin, UpdateView):
     model = Ticket
     template_name = "tickets/ticket_form.html"
-    fields = ["title", "description"]
+    form_class = CustomTicketForm
     context_object_name = "ticket"
 
     def get_queryset(self):
-        return Ticket.objects.filter(user=self.request.user)
+        queryset = super().get_queryset()
+        return queryset.filter(user=self.request.user)
 
     def get_success_url(self):
         return reverse_lazy("tickets:detail", kwargs={"primary_key": self.object.primary_key})
