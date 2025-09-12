@@ -51,10 +51,10 @@ class CustomUserCreationForm(UserCreationForm):
         return username
 
     def clean_password2(self):
-        password2 = super().clean_password2()
-        username = self.cleaned_data.get("username")
-        if username:
-            logger.debug(f"Validate password for {username}")
+        password1 = self.cleaned_data.get("password1")
+        password2 = self.cleaned_data.get("password2")
+        if password1 and password2 and password1 != password2:
+            raise forms.ValidationError("The passwords don't match.")
         return password2
 
     def save(self, commit=True):
