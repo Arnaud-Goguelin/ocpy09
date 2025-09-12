@@ -11,7 +11,7 @@ from .form import CustomUserCreationForm
 class CustomLoginView(LoginView):
     template_name = "authentication/login.html"
     redirect_authenticated_user = True
-    success_url = reverse_lazy("tickets:create")
+    success_url = reverse_lazy("feed:subscriptions")
 
 
 class CustomLogoutView(LogoutView):
