@@ -153,3 +153,11 @@ body {
 .medium {
     font-weight: var(--font-weight-medium);
 }
+
+.error-text{
+    color: var(--color-error);
+}
+
+.help-text{
+    color: var(--color-grey);
+}

@@ -1,11 +1,14 @@
 <header class="header flex --space-between p-md">
     <h1 class="headline-xl"><a href="#">LITReview</a></h1>
     <nav class="header-nav flex">
-        {% if user.is_authenticated %}
             <a href="#">Flux</a>
             <a href="#">Posts</a>
             <a href="#">Abonnements</a>
-            <a href="{{ url('authentication:logout') }}">Se déconnecter</a>
+        {% if user.is_authenticated %}
+            <form method="post" action="{{ url('authentication:logout') }}">
+                {{ csrf_input(request)|safe }}
+                {{ action_buttons(primary_text="Se déconnecter") }}
+            </form>
         {% else %}
             <a href="{{ url('authentication:login')}}">Se connecter</a>
         {% endif %}

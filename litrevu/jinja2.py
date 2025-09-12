@@ -10,12 +10,16 @@ def environment(**options):
         {
             "static": staticfiles_storage.url,
             "url": reverse,
-            "csrf_token": lambda request: get_token(request),
         }
     )
     return env
 
 
 def user_context(request):
-    """Context processor to pass 'user' objet in Jinja2"""
-    return {"user": request.user if hasattr(request, "user") else None}
+    """Context processor to pass 'user' and 'request' object in Jinja2"""
+    return {
+        "user": request.user if hasattr(request, "user") else None,
+        "request": request,
+        "csrf_token": get_token(request),
+        "csrf_input": f'<input type="hidden" name="csrfmiddlewaretoken" value="{get_token(request)}">',
+    }

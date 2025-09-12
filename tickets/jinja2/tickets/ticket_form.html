@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
-{% from 'macros/form_macros.html' import render_field, action_buttons %}
+{% from 'macros/form_macros.html' import render_field %}
+{% from 'macros/button_macros.html' import action_buttons %}
 
 {% block title %}
     {% if ticket %}Modifier un ticket{% else %}Créer un ticket{% endif %} - LitReview
@@ -9,7 +10,6 @@
 {% block css %}
     <link rel="stylesheet" href="{{ static('css/ticket_form.css') }}">
     <link rel="stylesheet" href="{{ static('styles/components/button.css') }}">
-    <link rel="stylesheet" href="{{ static('styles/components/card.css') }}">
     <link rel="stylesheet" href="{{ static('styles/components/form.css') }}">
 {% endblock %}
 
@@ -22,18 +22,18 @@
     <form class="form-global width-100" method="post" enctype="multipart/form-data">
 
 <!--        title field-->
-        {{ render_field(form.title) }}
+        {{ render_field(form.title, css_class="form-input") }}
 
 <!--        description field-->
-        {{ render_field(form.description, rows=6) }}
+        {{ render_field(form.description, css_class="from-text-area", rows=6) }}
 
 <!--        import image field-->
-        {{ render_field(form.image, accept="image/webp,image/png"
+        {{ render_field(form.image, css_class="form-input", accept="image/webp,image/png"
 ) }}
 
 <!--        error displaying in form-->
         {% if form.non_field_errors() %}
-            <div class="form-error bold mb-md">
+            <div class="bold error-text mt-sm">
                 {% for error in form.non_field_errors() %}
                     <div>{{ error }}</div>
                 {% endfor %}

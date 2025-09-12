@@ -8,7 +8,6 @@ class CustomTicketForm(forms.ModelForm):
         max_length=200,
         widget=forms.TextInput(
             attrs={
-                "class": "form-input",
                 "placeholder": "Titre du livre",
                 "id": "id_title",
             }
@@ -18,9 +17,7 @@ class CustomTicketForm(forms.ModelForm):
     description = forms.CharField(
         widget=forms.Textarea(
             attrs={
-                "class": "from-text-area",
                 "placeholder": "Description du livre",
-                "rows": "6",
                 "id": "id_description",
             }
         ),
@@ -30,7 +27,6 @@ class CustomTicketForm(forms.ModelForm):
     image = forms.ImageField(
         widget=forms.FileInput(
             attrs={
-                "class": "form-input",
                 "accept": "image/webp,image/png",
                 "id": "id_image",
             }

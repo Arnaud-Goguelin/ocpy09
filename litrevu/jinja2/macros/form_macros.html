@@ -6,7 +6,7 @@
     <label class="block mb-xs" for="{{ field.id_for_label }}">
         {{ field.label }}
         {% if field.field.required %}
-            <span class="text-red">*</span>
+            <span class="bold error-text mt-sm">*</span>
         {% endif %}
     </label>
     
@@ -19,24 +19,11 @@
     {{ field.as_widget(attrs=field_attrs) }}
     
     {% if field.help_text %}
-        <small class="form-help text-gray-600">{{ field.help_text }}</small>
+        <small class="help-text mt-sm">{{ field.help_text }}</small>
     {% endif %}
     
     {% if field.errors %}
-        <span class="form-error text-red">{{ field.errors[0] }}</span>
+        <span class="bold error-text mt-sm">{{ field.errors[0] }}</span>
     {% endif %}
 </div>
 {% endmacro %}
-
-<!--standard button macro-->
-{% macro action_buttons(primary_text="Envoyer", primary_type="submit", cancel_url=None, cancel_text="Annuler", cancel_class="primary-btn") %}
-<div class="flex --flex-start mb-md">
-    {% if cancel_url %}
-        <a class="{{ cancel_class }}" href="{{ cancel_url }}">{{ cancel_text }}</a>
-    {% endif %}
-    <button class="primary-btn {% if cancel_url %}ml-lg{% endif %}" type="{{ primary_type }}">
-        {{ primary_text }}
-    </button>
-</div>
-{% endmacro %}
-
