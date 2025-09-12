@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% from 'macros/form_macros.html' import render_field %}
+{% from 'macros/button_macros.html' import action_buttons %}
+
+{% block title %}
+    Abonnements - LitReview
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ static('styles/components/button.css') }}">
+    <link rel="stylesheet" href="{{ static('styles/components/form.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="flex --column --align-start">
+    <h2 class="headline-xl mb-lg">Gestion des abonnements</h2>
+
+    <!-- Formulaire pour s'abonner -->
+    <div class="mb-xl">
+        <h3 class="headline-lg mb-md">Suivre un utilisateur</h3>
+        <form class="form-global width-80" method="post">
+
+            {{ csrf_input(request)|safe }}
+            {{ render_field(form.username, css_class="form-input") }}
+
+            {% if form.non_field_errors() %}
+                <div class="bold error-text mt-sm">
+                    {% for error in form.non_field_errors() %}
+                        <div>{{ error }}</div>
+                    {% end for %}
+                </div>
+            {% endif %}
+
+            {{ action_buttons(primary_text="S'abonner") }}
+        </form>
+    </div>
+
+    <!-- Liste des utilisateurs que je suis -->
+    <div class="mb-xl">
+        <h3 class="headline-lg mb-md">Mes abonnements</h3>
+        <p class="text-gray">Vous suivez {{ following|length }} utilisateur·trice{{ following|length|pluralize }}.</p>
+        <div class="user-list">
+            {% for subscription in following %}
+                <div class="user-item flex --space-between --align-center mb-sm p-md border">
+                    <span>{{ subscription.followed.username }}</span>
+                </div>
+            {% empty %}
+                <p class="text-gray">Vous ne suivez personne pour le moment.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Liste de mes abonnés -->
+    <div class="mb-xl">
+        <h3 class="headline-lg mb-md">Mes abonnés: ({{ followers|length }})</h3>
+        <p>{{ followers|lengh }} utilisateur·trice{{ following|length|pluralize }} vous suivent actuellement</p>
+        <div class="user-list">
+            {% for subscription in followers %}
+                <div class="user-item flex --space-between --align-center mb-sm p-md border">
+                    <span>{{ subscription.follower.username }}</span>
+                </div>
+            {% empty %}
+                <p class="text-gray">Personne ne vous suit pour le moment.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}
