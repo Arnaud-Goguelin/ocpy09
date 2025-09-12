@@ -1,0 +1,10 @@
+.header {
+    background-color: var(--color-dark-cyan);
+    color: var(--color-white);
+}
+
+a {
+    text-decoration: none;
+}
+
+

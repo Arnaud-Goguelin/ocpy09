@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Inscription - LitReview{% endblock %}
+
+{% block content %}
+<section class="flex --column --align-start">
+    <h2 class="headline-xl mb-lg">Inscription</h2>
+    <div class="flex">
+        <form class="flex --column --space-evenly --align-start" method="post">
+            {% csrf_token %}
+
+            <div class="mb-md">
+                <label class="form-label">Nom d'utilisateur</label>
+                {{ form.username }}
+                {% if form.username.errors %}
+                    <span class="form-error">{{ form.username.errors.0 }}</span>
+                {% endif %}
+            </div>
+
+            <div class="mb-md">
+                <label class="form-label" >Mot de passe</label>
+                {{ form.password1 }}
+                {% if form.password1.errors %}
+                    <span class="form-error">{{ form.password1.errors.0 }}</span>
+                {% endif %}
+            </div>
+
+            <div class="mb-md">
+                <label class="form-label">Confirmer le mot de passe</label>
+                {{ form.password2 }}
+                {% if form.password2.errors %}
+                    <span class="form-error">{{ form.password2.errors.0 }}</span>
+                {% endif %}
+            </div>
+
+            {% if form.non_field_errors %}
+                <div class="form-error bold mb-md">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+
+            <button class="primary-btn mb-lg" type="submit">S'inscrire</button>
+            <a class="secondary-btn" href="{% url 'authentication:login' %}">Déjà un compte ? Se connecter</a>
+        </form>
+    </div>
+</section>
+{% endblock %}

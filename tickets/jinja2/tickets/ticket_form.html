@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% from 'macros/form_macros.html' import render_field, action_buttons %}
+
+{% block title %}
+    {% if ticket %}Modifier un ticket{% else %}Créer un ticket{% endif %} - LitReview
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ static('css/ticket_form.css') }}">
+    <link rel="stylesheet" href="{{ static('styles/components/button.css') }}">
+    <link rel="stylesheet" href="{{ static('styles/components/card.css') }}">
+    <link rel="stylesheet" href="{{ static('styles/components/form.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="flex --column --align-start">
+    <h2 class="headline-xl mb-lg">
+        {% if ticket %}Modifier un ticket{% else %}Créer un ticket{% endif %}
+    </h2>
+
+    <form class="form-global width-100" method="post" enctype="multipart/form-data">
+
+<!--        title field-->
+        {{ render_field(form.title) }}
+
+<!--        description field-->
+        {{ render_field(form.description, rows=6) }}
+
+<!--        import image field-->
+        {{ render_field(form.image, accept="image/webp,image/png"
+) }}
+
+<!--        error displaying in form-->
+        {% if form.non_field_errors() %}
+            <div class="form-error bold mb-md">
+                {% for error in form.non_field_errors() %}
+                    <div>{{ error }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+<!--        actions buttons-->
+        {{ action_buttons(
+            primary_text=("Modifier" if ticket else "Envoyer"),
+            cancel_url=url('tickets:list'),
+            cancel_text="Annuler"
+        ) }}
+    </form>
+</section>
+{% endblock %}
