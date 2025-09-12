@@ -70,7 +70,7 @@ TEMPLATES = [
             "auto_reload": True,
             "environment": "litrevu.jinja2.environment",
             "context_processors": [
-                'litrevu.jinja2.user_context',
+                "litrevu.jinja2.user_context",
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
