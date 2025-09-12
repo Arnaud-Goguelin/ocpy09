@@ -10,7 +10,7 @@ from .models import User
 class CustomLoginView(LoginView):
     template_name = "authentication/login.html"
     redirect_authenticated_user = True
-    success_url = reverse_lazy("tickets:list")
+    success_url = reverse_lazy("tickets:create")
 
 
 class CustomLogoutView(LogoutView):

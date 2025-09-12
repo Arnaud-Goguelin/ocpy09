@@ -1,12 +1,14 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 
+from authentication.models import User
+
+
 class CustomUserCreationForm(UserCreationForm):
     username = forms.CharField(
         max_length=150,
         widget=forms.TextInput(
             attrs={
-                "class": "form-input",
                 "placeholder": "Bob",
                 "id": "id_username_signup",
             }
@@ -15,8 +17,7 @@ class CustomUserCreationForm(UserCreationForm):
     password1 = forms.CharField(
         widget=forms.PasswordInput(
             attrs={
-                "class": "form-input",
-                "placeholder": "complicated_secret_password",
+                "placeholder": "mot de passe long et à multiples caractères",
                 "id": "id_password_signup_1",
             }
         )
@@ -24,8 +25,7 @@ class CustomUserCreationForm(UserCreationForm):
     password2 = forms.CharField(
         widget=forms.PasswordInput(
             attrs={
-                "class": "form-input",
-                "placeholder": "complicated_secret_password",
+                "placeholder": "répéter mot de passe",
                 "id": "id_password_signup_2",
             }
         )
