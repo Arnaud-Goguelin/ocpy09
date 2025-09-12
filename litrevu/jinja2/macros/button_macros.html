@@ -1,0 +1,13 @@
+{# templates/jinja2/macros/button_macros.html #}
+
+<!--standard button macro-->
+{% macro action_buttons(primary_text="Envoyer", primary_type="submit", cancel_url=None, cancel_text="Annuler", cancel_class="primary-btn") %}
+<div class="flex --flex-start mb-md">
+    {% if cancel_url %}
+        <a class="{{ cancel_class }}" href="{{ cancel_url }}">{{ cancel_text }}</a>
+    {% endif %}
+    <button class="primary-btn {% if cancel_url %}ml-lg{% endif %}" type="{{ primary_type }}">
+        {{ primary_text }}
+    </button>
+</div>
+{% endmacro %}
