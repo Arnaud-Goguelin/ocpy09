@@ -6,7 +6,7 @@
             <a href="#">Abonnements</a>
         {% if user.is_authenticated %}
             <form method="post" action="{{ url('authentication:logout') }}">
-                {{ csrf_input(request)|safe }}
+                {{ csrf_input|safe }}
                 {{ action_buttons(primary_text="Se déconnecter") }}
             </form>
         {% else %}

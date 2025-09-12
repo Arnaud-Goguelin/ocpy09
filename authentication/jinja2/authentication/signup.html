@@ -17,6 +17,7 @@
     <h2 class="headline-xl mb-lg">Inscription</h2>
     <div class="flex">
         <form class="flex --column --space-evenly --align-start" method="post">
+            {{ csrf_input|safe }}
 <!--        username field-->
             {{ render_field(form.username, css_class="form-input") }}
 <!--        password field-->
