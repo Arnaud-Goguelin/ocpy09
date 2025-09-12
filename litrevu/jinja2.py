@@ -20,6 +20,5 @@ def user_context(request):
     return {
         "user": request.user if hasattr(request, "user") else None,
         "request": request,
-        "csrf_token": get_token(request),
         "csrf_input": f'<input type="hidden" name="csrfmiddlewaretoken" value="{get_token(request)}">',
     }

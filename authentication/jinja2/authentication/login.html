@@ -15,8 +15,9 @@
 <section class="flex --column --align-start">
     <h2 class="headline-xl mb-lg">Connexion</h2>
     <div class="flex">
-        <a class="primary-btn mr-3xl" href="{% url 'authentication:signup' %}">Inscrivez-vous maintenant</a>
+        <a class="primary-btn mr-3xl" href="{{ url('authentication:signup') }}">Inscrivez-vous maintenant</a>
         <form class="flex --column --space-evenly --align-start" method="post">
+            {{ csrf_input|safe }}
 <!--        username field-->
             {{ render_field(form.username, css_class="form-input") }}
 <!--        password field-->
