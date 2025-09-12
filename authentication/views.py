@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView
 
 from .form import CustomUserCreationForm
-from .models import User
+from users.models import User
 
 
 class CustomLoginView(LoginView):
