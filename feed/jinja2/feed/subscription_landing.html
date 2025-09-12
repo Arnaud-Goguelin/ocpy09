@@ -21,14 +21,14 @@
         <h3 class="headline-lg mb-md">Suivre un utilisateur</h3>
         <form class="form-global width-80" method="post">
 
-            {{ csrf_input(request)|safe }}
+            {{ csrf_input|safe }}
             {{ render_field(form.username, css_class="form-input") }}
 
             {% if form.non_field_errors() %}
                 <div class="bold error-text mt-sm">
                     {% for error in form.non_field_errors() %}
                         <div>{{ error }}</div>
-                    {% end for %}
+                    {% endfor %}
                 </div>
             {% endif %}
 
@@ -39,30 +39,38 @@
     <!-- Liste des utilisateurs que je suis -->
     <div class="mb-xl">
         <h3 class="headline-lg mb-md">Mes abonnements</h3>
-        <p class="text-gray">Vous suivez {{ following|length }} utilisateur·trice{{ following|length|pluralize }}.</p>
-        <div class="user-list">
-            {% for subscription in following %}
-                <div class="user-item flex --space-between --align-center mb-sm p-md border">
-                    <span>{{ subscription.followed.username }}</span>
-                </div>
-            {% empty %}
-                <p class="text-gray">Vous ne suivez personne pour le moment.</p>
-            {% endfor %}
+        {% if following %}
+            <p>Vous suivez {{ following|length }} utilisateur·trice{% if following|length > 1 %}s{% endif %}.</p>
+        {% endif %}
+        <div>
+            {% if not following %}
+                <p>Vous ne suivez personne pour le moment.</p>
+            {% else %}
+                {% for subscription in following %}
+                    <div class="flex --space-between --align-center mb-sm p-md border">
+                        <span>{{ subscription.followed.username }}</span>
+                    </div>
+                {% endfor %}
+            {% endif %}
         </div>
     </div>
 
     <!-- Liste de mes abonnés -->
     <div class="mb-xl">
-        <h3 class="headline-lg mb-md">Mes abonnés: ({{ followers|length }})</h3>
-        <p>{{ followers|lengh }} utilisateur·trice{{ following|length|pluralize }} vous suivent actuellement</p>
-        <div class="user-list">
-            {% for subscription in followers %}
-                <div class="user-item flex --space-between --align-center mb-sm p-md border">
-                    <span>{{ subscription.follower.username }}</span>
-                </div>
-            {% empty %}
-                <p class="text-gray">Personne ne vous suit pour le moment.</p>
-            {% endfor %}
+        <h3 class="headline-lg mb-md">Mes abonnés</h3>
+        {% if followers %}
+            <p>{{ followers|length }} utilisateur·trice{% if following|length > 1 %}s{% endif %} vous suivent actuellement</p>
+        {% endif %}
+        <div>
+            {% if not followers %}
+                <p>Personne ne vous suit pour le moment.</p>
+            {% else %}
+                {% for subscription in followers %}
+                    <div class="flex --space-between --align-center mb-sm p-md border">
+                        <span>{{ subscription.follower.username }}</span>
+                    </div>
+                {% endfor %}
+            {% endif %}
         </div>
     </div>
 </section>
