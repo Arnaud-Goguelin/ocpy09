@@ -63,6 +63,7 @@ class TicketDeleteView(LoginRequiredMixin, DeleteView):
     def get_queryset(self):
         return Ticket.objects.filter(user=self.request.user)
 
+
 # TODO keep as simplest as possible and put logic in a service.py file to make unit test easier
 class TicketReviewCreateView(LoginRequiredMixin, CreateView):
     """
