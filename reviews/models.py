@@ -1,6 +1,7 @@
 from django.conf import settings
-from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db import models
+
 
 class Review(models.Model):
     """
@@ -24,10 +25,7 @@ class Review(models.Model):
     """
 
     title = models.CharField("Title", max_length=128)
-    rating = models.IntegerField("Rating", default=0,         validators=[
-            MinValueValidator(0),
-            MaxValueValidator(5)
-        ])
+    rating = models.IntegerField("Rating", default=0, validators=[MinValueValidator(0), MaxValueValidator(5)])
     content = models.TextField("Content", max_length=2048, blank=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="reviews")
     time_created = models.DateTimeField("Created the", auto_now_add=True)
