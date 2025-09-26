@@ -1,0 +1,41 @@
+.star-rating-interactive {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.stars-container {
+    display: flex;
+    gap: 2px;
+}
+
+.star {
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+/* Étoiles pleines (jaunes) */
+.star-filled {
+    color: #ffd700; /* Jaune doré */
+}
+
+/* Étoiles vides (grises) */
+.star-empty {
+    color: #ccc; /* Gris clair */
+}
+
+/* Étoiles cliquables uniquement */
+.star-clickable {
+    cursor: pointer;
+    transition: transform 0.1s ease;
+}
+
+.star-clickable:hover {
+    transform: scale(1.1);
+}
+
+.rating-text {
+    font-weight: bold;
+    color: #666;
+    margin-left: 0.5rem;
+}
