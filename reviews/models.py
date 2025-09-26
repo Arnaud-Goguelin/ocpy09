@@ -28,6 +28,7 @@ class Review(models.Model):
     rating = models.IntegerField("Rating", default=0, validators=[MinValueValidator(0), MaxValueValidator(5)])
     content = models.TextField("Content", max_length=2048, blank=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="reviews")
+    ticket = models.ForeignKey("tickets.Ticket", on_delete=models.CASCADE, related_name="reviews")
     time_created = models.DateTimeField("Created the", auto_now_add=True)
 
     class Meta:
