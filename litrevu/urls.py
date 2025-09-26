@@ -25,4 +25,6 @@ urlpatterns = [
     path("auth/", include("authentication.urls")),
     # --- Tickets app ---
     path("tickets/", include("tickets.urls")),
+    # --- Feed app ---
+    path("feed/", include("feed.urls")),
 ]
