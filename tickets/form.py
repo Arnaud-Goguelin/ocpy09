@@ -8,20 +8,20 @@ class CustomTicketForm(forms.ModelForm):
         max_length=200,
         widget=forms.TextInput(
             attrs={
-                "placeholder": "Titre du livre",
+                "placeholder": "Book's Title",
                 "id": "id_title",
             }
         ),
-        label="Titre",
+        label="Title",
     )
-    description = forms.CharField(
+    content = forms.CharField(
         widget=forms.Textarea(
             attrs={
-                "placeholder": "Description du livre",
-                "id": "id_description",
+                "placeholder": "Ticket's content",
+                "id": "id_content",
             }
         ),
-        label="Description",
+        label="Content",
         required=False,
     )
     image = forms.ImageField(
@@ -31,10 +31,10 @@ class CustomTicketForm(forms.ModelForm):
                 "id": "id_image",
             }
         ),
-        label="Télécharger une image",
+        label="Load an image",
         required=False,
     )
 
     class Meta:
         model = Ticket
-        fields = ["title", "description", "image"]
+        fields = ["title", "content", "image"]
