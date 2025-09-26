@@ -63,11 +63,27 @@ class TicketDeleteView(LoginRequiredMixin, DeleteView):
     def get_queryset(self):
         return Ticket.objects.filter(user=self.request.user)
 
-
+# TODO keep as simplest as possible and put logic in a service.py file to make unit test easier
 class TicketReviewCreateView(LoginRequiredMixin, CreateView):
     """
-    Class-Based View pour créer un Ticket avec sa Review en même temps
-    en utilisant les InlineFormSets de Django
+    View for creating a new ticket with an associated review.
+
+    This class-based view allows users who are logged in to create a new ticket
+    and optionally one associated review. It utilizes a formset to handle the review
+    creation alongside the ticket. Upon successful submission, the view saves the ticket
+    and its associated review(s) and redirects to the specified success URL.
+
+    It ensures atomicity during ticket and review creation, so if any part of the
+    transaction fails, no changes are committed to the database.
+
+    :ivar model: The model associated with the view, which is `Ticket`.
+    :type model: Model
+    :ivar form_class: The form used for creating a ticket.
+    :type form_class: ModelForm
+    :ivar template_name: The path to the template used to render this view.
+    :type template_name: str
+    :ivar success_url: The URL to redirect to on successful creation of the ticket.
+    :type success_url: str
     """
 
     model = Ticket
