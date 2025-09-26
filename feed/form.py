@@ -48,8 +48,10 @@ class CreateSubscriptionForm(forms.ModelForm):
             raise forms.ValidationError("You already follow this user.")
 
         logger.info(f"Attempt successful from {self.user.username} to follow {username}")
+        # TODO try to return Subscription instance directly
         return username
 
+    # TODO: 'save' method could be done automatically by django
     def save(self, commit=True):
         username = self.cleaned_data["username"]
         user_to_follow = User.objects.get(username=username)
