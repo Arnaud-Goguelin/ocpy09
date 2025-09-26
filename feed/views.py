@@ -16,7 +16,7 @@ class SubscriptionLandingView(LoginRequiredMixin, CreateView):
     template_name = "feed/subscription_landing.html"
     model = Subscription
     form_class = CreateSubscriptionForm
-    success_url = reverse_lazy("feed:subscriptions")
+    success_url = reverse_lazy("subscriptions")
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
@@ -41,5 +41,5 @@ class SubscriptionLandingView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
     def form_invalid(self, form):
-        logger.warning(f"Attempt from {self.request.user.username} to follow {form.cleaned_data['username']} failed.")
+        logger.warning(f"Attempt from {self.request.user.username} to follow {form.data['username']} failed.")
         return super().form_invalid(form)
