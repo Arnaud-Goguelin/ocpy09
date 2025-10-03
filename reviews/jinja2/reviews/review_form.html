@@ -5,11 +5,10 @@
 {% from 'macros/rating_macros.html' import star_rating_field %}
 
 {% block title %}
-    {{ title }} - LitReview
+    {% if review %}Update{% else %}Create{% endif %} a review - LitReview
 {% endblock %}
 
 {% block css %}
-    <link rel="stylesheet" href="{{ static('css/ticket_form.css') }}">
     <link rel="stylesheet" href="{{ static('styles/components/button.css') }}">
     <link rel="stylesheet" href="{{ static('styles/components/form.css') }}">
     <link rel="stylesheet" href="{{ static('styles/components/star_rating.css') }}">
@@ -18,56 +17,36 @@
 {% block content %}
 <section class="flex --column --align-start">
     <h2 class="headline-xl mb-lg">
-        {{ title }}
+        {% if review %}Update{% else %}Create{% endif %} a review
     </h2>
+
+    {% if ticket %}
+        <div class="ticket-reference mb-lg">
+            <h3>You are responding to</h3>
+            <div class="ticket-info">
+                <h4>{{ ticket.title }}</h4>
+                {% if ticket.content %}
+                    <p>{{ ticket.content }}</p>
+                {% endif %}
+                {% if ticket.image %}
+                    <img src="{{ ticket.image.url }}" alt="{{ ticket.title }}" style="max-width: 200px;">
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
 
     <form class="form-global width-100" method="post" enctype="multipart/form-data">
         {{ csrf_input|safe }}
+<!--        title field-->
+        {{ render_field(form.title, css_class="form-input") }}
 
-        <!-- Management form for formset (OBLIGATOIRE) -->
-        <div class="formset-management" style="display: none;">
-            {{ review_formset.management_form }}
-        </div>
+<!--        rating field -->
+        {{ star_rating_field(form.rating) }}
 
-        <!-- Ticket form -->
-        <div>
-            <h3>Book/article</h3>
-            {{ render_field(form.title, css_class="form-input") }}
-            {{ render_field(form.content, css_class="from-text-area", rows=6) }}
-            {{ render_field(form.image, css_class="form-input", accept="image/webp,image/png") }}
-        </div>
+<!--        content field-->
+        {{ render_field(form.content, css_class="from-text-area", rows=6) }}
 
-        <!-- Review form -->
-        <div>
-            <h3>Review</h3>
-
-            {% for review_form in review_formset %}
-                {% for hidden in review_form.hidden_fields %}
-                    {{ hidden }}
-                {% endfor %}
-
-                {{ render_field(review_form.title, css_class="form-input") }}
-                {{ star_rating_field(review_form.rating) }}
-                {{ render_field(review_form.content, css_class="from-text-area", rows=4) }}
-
-                {% if review_form.non_field_errors() %}
-                    <div class="bold error-text mt-sm">
-                        {% for error in review_form.non_field_errors() %}
-                            <div>{{ error }}</div>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-            {% endfor %}
-
-            {% if review_formset.non_form_errors %}
-                <div class="bold error-text mt-sm">
-                    {% for error in review_formset.non_form_errors %}
-                        <div>{{ error }}</div>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        </div>
-
+<!--        error displaying in form-->
         {% if form.non_field_errors() %}
             <div class="bold error-text mt-sm">
                 {% for error in form.non_field_errors() %}
@@ -76,9 +55,10 @@
             </div>
         {% endif %}
 
+<!--        actions buttons-->
         {{ action_buttons(
-            primary_text="Send",
-            cancel_url=url('tickets:list'),
+            primary_text=("Update" if review else "Send"),
+            cancel_url=url('feed:subscriptions'),
             cancel_text="Cancel"
         ) }}
     </form>

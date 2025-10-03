@@ -17,14 +17,19 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import include, path
+from django.views.generic import RedirectView
 
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    # --- Landing page : redirect to feed app ---
+    path("", RedirectView.as_view(url="/feed/", permanent=False), name="home"),
     # --- Auth app ---
     path("auth/", include("authentication.urls")),
     # --- Tickets app ---
     path("tickets/", include("tickets.urls")),
+    # --- Reviews app ---
+    path("reviews/", include("reviews.urls")),
     # --- Feed app ---
     path("feed/", include("feed.urls")),
 ]
