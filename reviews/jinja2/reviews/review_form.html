@@ -2,6 +2,7 @@
 
 {% from 'macros/form_macros.html' import render_field %}
 {% from 'macros/button_macros.html' import action_buttons %}
+{% from 'macros/rating_macros.html' import star_rating_field %}
 
 {% block title %}
     {% if review %}Update{% else %}Create{% endif %} a review - LitReview
@@ -35,7 +36,7 @@
     {% endif %}
 
     <form class="form-global width-100" method="post" enctype="multipart/form-data">
-
+        {{ csrf_input|safe }}
 <!--        title field-->
         {{ render_field(form.title, css_class="form-input") }}
 
@@ -44,7 +45,6 @@
 
 <!--        content field-->
         {{ render_field(form.content, css_class="from-text-area", rows=6) }}
-
 
 <!--        error displaying in form-->
         {% if form.non_field_errors() %}
@@ -58,7 +58,7 @@
 <!--        actions buttons-->
         {{ action_buttons(
             primary_text=("Update" if review else "Send"),
-            cancel_url=url('review:list'),
+            cancel_url=url('feed:subscriptions'),
             cancel_text="Cancel"
         ) }}
     </form>
