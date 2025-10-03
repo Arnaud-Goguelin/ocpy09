@@ -11,8 +11,8 @@ from .models import Review
 class ReviewCreateView(LoginRequiredMixin, CreateView):
     model = Review
     form_class = ReviewForm
-    template_name = "reviews/reviews_form.html"
-    success_url = reverse_lazy("reviews:list")
+    template_name = "reviews/review_form.html"
+    success_url = reverse_lazy("feed:subscriptions")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -31,7 +31,7 @@ class ReviewCreateView(LoginRequiredMixin, CreateView):
 
 class ReviewUpdateView(LoginRequiredMixin, UpdateView):
     model = Review
-    template_name = "reviews/reviews_form.html"
+    template_name = "reviews/review_form.html"
     form_class = ReviewForm
     context_object_name = "review"
 
@@ -46,14 +46,14 @@ class ReviewUpdateView(LoginRequiredMixin, UpdateView):
         return queryset.filter(user=self.request.user)
 
     def get_success_url(self):
-        return reverse_lazy("review:detail", kwargs={"primary_key": self.object.primary_key})
+        return reverse_lazy("feed:subscriptions")
 
 
 class ReviewDeleteView(LoginRequiredMixin, DeleteView):
     model = Review
     template_name = "reviews/reviews_confirm_delete.html"
     context_object_name = "review"
-    success_url = reverse_lazy("review:list")
+    success_url = reverse_lazy("feed:subscriptions")
 
     def get_queryset(self):
         return Review.objects.filter(user=self.request.user)
