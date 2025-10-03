@@ -22,7 +22,7 @@
     </h2>
 
     <form class="form-global width-100" method="post" enctype="multipart/form-data">
-        {{ csrf_token() }}
+        {{ csrf_input|safe }}
 
         <!-- Management form for formset (OBLIGATOIRE) -->
         <div class="formset-management" style="display: none;">
