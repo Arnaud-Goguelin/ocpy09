@@ -12,17 +12,6 @@ from .form import CustomTicketForm
 from .models import Ticket
 
 
-class TicketListView(LoginRequiredMixin, ListView):
-    model = Ticket
-    template_name = "tickets/ticket_list.html"
-    context_object_name = "tickets"
-    paginate_by = 10
-
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        return queryset.filter(user=self.request.user)
-
-
 class TicketDetailView(LoginRequiredMixin, DetailView):
     model = Ticket
     template_name = "tickets/ticket_detail.html"
@@ -33,7 +22,7 @@ class TicketCreateView(LoginRequiredMixin, CreateView):
     model = Ticket
     form_class = CustomTicketForm
     template_name = "tickets/ticket_form.html"
-    success_url = reverse_lazy("tickets:list")
+    success_url = reverse_lazy("feed:subscriptions")
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -58,7 +47,7 @@ class TicketDeleteView(LoginRequiredMixin, DeleteView):
     model = Ticket
     template_name = "tickets/ticket_confirm_delete.html"
     context_object_name = "ticket"
-    success_url = reverse_lazy("tickets:list")
+    success_url = reverse_lazy("feed:subscriptions")
 
     def get_queryset(self):
         return Ticket.objects.filter(user=self.request.user)
@@ -90,7 +79,7 @@ class TicketReviewCreateView(LoginRequiredMixin, CreateView):
     model = Ticket
     form_class = CustomTicketForm
     template_name = "tickets/ticket_review_form.html"
-    success_url = reverse_lazy("tickets:list")
+    success_url = reverse_lazy("feed:subscriptions")
 
     def __init__(self, **kwargs):
         # init formset
