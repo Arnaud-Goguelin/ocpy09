@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+
+{% from 'macros/form_macros.html' import render_field %}
+{% from 'macros/button_macros.html' import action_buttons %}
+{% from 'macros/rating_macros.html' import star_rating_field %}
+
+{% block title %}
+    {{ title }} - LitReview
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ static('css/ticket_form.css') }}">
+    <link rel="stylesheet" href="{{ static('styles/components/button.css') }}">
+    <link rel="stylesheet" href="{{ static('styles/components/form.css') }}">
+    <link rel="stylesheet" href="{{ static('styles/components/star_rating.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="flex --column --align-start">
+    <h2 class="headline-xl mb-lg">
+        {{ title }}
+    </h2>
+
+    <form class="form-global width-100" method="post" enctype="multipart/form-data">
+        {{ csrf_token() }}
+
+        <!-- Management form for formset (OBLIGATOIRE) -->
+        <div class="formset-management" style="display: none;">
+            {{ review_formset.management_form }}
+        </div>
+
+        <!-- Ticket form -->
+        <div>
+            <h3>Book/article</h3>
+            {{ render_field(form.title, css_class="form-input") }}
+            {{ render_field(form.content, css_class="from-text-area", rows=6) }}
+            {{ render_field(form.image, css_class="form-input", accept="image/webp,image/png") }}
+        </div>
+
+        <!-- Review form -->
+        <div>
+            <h3>Review</h3>
+
+            {% for review_form in review_formset %}
+                {% for hidden in review_form.hidden_fields %}
+                    {{ hidden }}
+                {% endfor %}
+
+                {{ render_field(review_form.title, css_class="form-input") }}
+                {{ star_rating_field(review_form.rating) }}
+                {{ render_field(review_form.content, css_class="from-text-area", rows=4) }}
+
+                {% if review_form.non_field_errors() %}
+                    <div class="bold error-text mt-sm">
+                        {% for error in review_form.non_field_errors() %}
+                            <div>{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+
+            {% if review_formset.non_form_errors %}
+                <div class="bold error-text mt-sm">
+                    {% for error in review_formset.non_form_errors %}
+                        <div>{{ error }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        {% if form.non_field_errors() %}
+            <div class="bold error-text mt-sm">
+                {% for error in form.non_field_errors() %}
+                    <div>{{ error }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {{ action_buttons(
+            primary_text="Send",
+            cancel_url=url('tickets:list'),
+            cancel_text="Cancel"
+        ) }}
+    </form>
+</section>
+
+<script>
+<!--    wait for complete DOM loading-->
+document.addEventListener('DOMContentLoaded', function() {
+    const interactiveRatings = document.querySelectorAll('.star-rating-interactive');
+
+    interactiveRatings.forEach(function(rating) {
+        const stars = rating.querySelectorAll('.star-clickable');
+        const hiddenInput = rating.querySelector('input[type="hidden"]');
+        const ratingText = rating.querySelector('.rating-text');
+
+        stars.forEach(function(star) {
+            star.addEventListener('click', function() {
+                const newRating = parseInt(this.dataset.value);
+                hiddenInput.value = newRating;
+
+                stars.forEach(function(s, index) {
+                    if (index < newRating) {
+                        s.classList.remove('star-empty');
+                        s.classList.add('star-filled');
+                    } else {
+                        s.classList.remove('star-filled');
+                        s.classList.add('star-empty');
+                    }
+                });
+
+                ratingText.textContent = newRating + '/5';
+            });
+        });
+    });
+});
+</script>
+{% endblock %}

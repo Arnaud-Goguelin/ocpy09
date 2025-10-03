@@ -1,0 +1,46 @@
+{# templates/jinja2/macros/rating_macros.html #}
+
+<!--star rating display (read-only)-->
+{% macro star_rating_display(rating, max_rating=5, css_class="") %}
+<div class="{{ css_class }}">
+    {% for i in range(1, max_rating + 1) %}
+        <span class="star {% if i <= rating %}star-filled{% else %}star-empty{% endif %}">★</span>
+    {% endfor %}
+    <span class="rating-text">{{ rating }}/{{ max_rating }}</span>
+</div>
+{% endmacro %}
+
+<!--star rating field for forms (interactive)-->
+{% macro star_rating_field(field, wrapper_class="mb-md", max_rating=5) %}
+<div class="{{ wrapper_class }}">
+    <label class="block mb-xs">
+        {{ field.label }}
+        {% if field.field.required %}
+            <span class="bold error-text mt-sm">*</span>
+        {% endif %}
+    </label>
+
+    <div class="star-rating-interactive" data-rating="{{ field.value() or 0 }}">
+        <!-- Hidden input to store value-->
+        <input type="hidden" name="{{ field.name }}" id="{{ field.id_for_label }}" value="{{ field.value() or 0 }}">
+
+        <!-- interactive stars -->
+        <div class="stars-container">
+            {% for i in range(1, max_rating + 1) %}
+                <span class="star star-clickable {% if i <= (field.value() or 0) %}star-filled{% else %}star-empty{% endif %}"
+                      data-value="{{ i }}">★</span>
+            {% endfor %}
+        </div>
+
+        <span class="rating-text">{{ field.value() or 0 }}/{{ max_rating }}</span>
+    </div>
+
+    {% if field.help_text %}
+        <small class="help-text mt-sm">{{ field.help_text }}</small>
+    {% endif %}
+
+    {% if field.errors %}
+        <span class="bold error-text mt-sm">{{ field.errors[0] }}</span>
+    {% endif %}
+</div>
+{% endmacro %}

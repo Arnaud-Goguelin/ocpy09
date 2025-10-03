@@ -15,8 +15,10 @@ class Ticket(models.Model):
 
     :ivar title: The title of the ticket.
     :type title: str
-    :ivar description: An optional detailed description of the ticket.
-    :type description: str
+    :ivar content: An optional detailed description of the ticket.
+    :type content: str
+    :ivar image: An optional image associated with the ticket.
+    :type image: ImageField
     :ivar user: The user associated with the ticket. This is a foreign key reference
          to the user model specified in project settings.
     :type user: ForeignKey
@@ -26,7 +28,9 @@ class Ticket(models.Model):
     """
 
     title = models.CharField("Title", max_length=128)
-    description = models.TextField("Description", max_length=2048, blank=True)
+    content = models.TextField("Content", max_length=2048, blank=True)
+    # TODO: implement and image manager to store images at the correct format and dimensions
+    image = models.ImageField("Image", upload_to="tickets/", blank=True, null=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="tickets")
     time_created = models.DateTimeField("Created the", auto_now_add=True)
 
