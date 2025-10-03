@@ -19,10 +19,11 @@ from django.contrib import admin
 from django.urls import include, path
 from django.views.generic import RedirectView
 
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     # --- Landing page : redirect to feed app ---
-    path("", RedirectView.as_view(url='/feed/', permanent=False), name='home'),
+    path("", RedirectView.as_view(url="/feed/", permanent=False), name="home"),
     # --- Auth app ---
     path("auth/", include("authentication.urls")),
     # --- Tickets app ---

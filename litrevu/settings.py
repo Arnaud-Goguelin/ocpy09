@@ -69,7 +69,7 @@ TEMPLATES = [
         "DIRS": [
             BASE_DIR / "litrevu" / "jinja2",
             BASE_DIR / "litrevu" / "jinja2" / "macros",
-            ],
+        ],
         "APP_DIRS": True,
         "OPTIONS": {
             "auto_reload": True,

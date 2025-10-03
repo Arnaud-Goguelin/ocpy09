@@ -4,28 +4,19 @@ from users.models import User
 
 
 class Command(BaseCommand):
-    help = 'Create test users'
+    help = "Create test users"
 
     def handle(self, *args, **options):
         users_data = [
-            {'username': 'Bob', 'password': 'litrevuTest'},
-            {'username': 'Tom', 'password': 'litrevuTest'},
-            ]
+            {"username": "Bob", "password": "litrevuTest"},
+            {"username": "Tom", "password": "litrevuTest"},
+        ]
 
         for user_data in users_data:
-            user, created = User.objects.get_or_create(
-                username=user_data['username'],
-                defaults={
-                    'is_active': True
-                    }
-                )
+            user, created = User.objects.get_or_create(username=user_data["username"], defaults={"is_active": True})
             if created:
-                user.set_password(user_data['password'])
+                user.set_password(user_data["password"])
                 user.save()
-                self.stdout.write(
-                    self.style.SUCCESS(f'User "{user.username}" created successfully')
-                    )
+                self.stdout.write(self.style.SUCCESS(f'User "{user.username}" created successfully'))
             else:
-                self.stdout.write(
-                    self.style.WARNING(f'User "{user.username}" already exists')
-                    )
+                self.stdout.write(self.style.WARNING(f'User "{user.username}" already exists'))

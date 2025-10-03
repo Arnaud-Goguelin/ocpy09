@@ -4,6 +4,7 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, UpdateView
 
 from tickets.models import Ticket
+
 from .form import ReviewForm
 from .models import Review
 
@@ -16,14 +17,14 @@ class ReviewCreateView(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        ticket_id = self.kwargs.get('ticket_id')
+        ticket_id = self.kwargs.get("ticket_id")
         if ticket_id:
-            context['ticket'] = get_object_or_404(Ticket, pk=ticket_id)
+            context["ticket"] = get_object_or_404(Ticket, pk=ticket_id)
         return context
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        ticket_id = self.kwargs.get('ticket_id')
+        ticket_id = self.kwargs.get("ticket_id")
         if ticket_id:
             form.instance.ticket = get_object_or_404(Ticket, pk=ticket_id)
         return super().form_valid(form)
@@ -38,7 +39,7 @@ class ReviewUpdateView(LoginRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.object and self.object.ticket:
-            context['ticket'] = self.object.ticket
+            context["ticket"] = self.object.ticket
         return context
 
     def get_queryset(self):
