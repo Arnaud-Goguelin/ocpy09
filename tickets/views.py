@@ -40,7 +40,7 @@ class TicketUpdateView(LoginRequiredMixin, UpdateView):
         return queryset.filter(user=self.request.user)
 
     def get_success_url(self):
-        return reverse_lazy("tickets:detail", kwargs={"primary_key": self.object.primary_key})
+        return reverse_lazy("tickets:detail", kwargs={"pk": self.object.pk})
 
 
 class TicketDeleteView(LoginRequiredMixin, DeleteView):
