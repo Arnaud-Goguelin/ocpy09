@@ -3,8 +3,10 @@ import logging
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import CreateView, ListView
 
+from reviews.models import Review
+from tickets.models import Ticket
 from .form import CreateSubscriptionForm
 from .models import Subscription
 
@@ -43,3 +45,28 @@ class SubscriptionLandingView(LoginRequiredMixin, CreateView):
     def form_invalid(self, form):
         logger.warning(f"Attempt from {self.request.user.username} to follow {form.data['username']} failed.")
         return super().form_invalid(form)
+
+
+class UserPostsView(LoginRequiredMixin, ListView):
+    template_name = "feed/user_posts.html"
+    context_object_name = "posts"
+    paginate_by = 10
+
+    def get_queryset(self):
+        user = self.request.user
+
+        user_reviews = Review.objects.filter(user=user).select_related('ticket', 'user')
+        user_tickets = Ticket.objects.filter(user=user).select_related('user').prefetch_related('reviews')
+
+        posts = sorted(
+            [*user_reviews, *user_tickets],
+            key=lambda x: x.time_created,
+            reverse=True
+            )
+
+        return posts
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user'] = self.request.user
+        return context
