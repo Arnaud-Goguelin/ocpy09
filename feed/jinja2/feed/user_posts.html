@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% from "macros/button_macros.html" import action_button, delete_button %}
+{% from "macros/rating_macros.html" import star_rating_display %}
+
+{% block title %}Your posts{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ static('styles/components/button.css') }}">
+<link rel="stylesheet" href="{{ static('styles/components/card.css') }}">
+<link rel="stylesheet" href="{{ static('styles/components/star_rating.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="flex --column --align-start">
+    <h2 class="headline-xl mb-xl">Your posts</h2>
+
+    {% if posts %}
+        {% for post in posts %}
+            <article class="classic_card p-lg mb-lg width-100">
+                {% if post.__class__.__name__ == "Review" %}
+<!--                 displaying review and its ticket -->
+                    <header class="flex --space-between --align-center mb-md">
+                        <h3 class="headline-lg">You have published a review</h3>
+                        <time class="body-xs help-text">{{ post.time_created.strftime('%d.%m.%Y à %H:%M') }}</time>
+                    </header>
+
+                    <div class="mb-lg">
+                        <h4 class="card-title-lg mb-sm">{{ post.title }}</h4>
+                        
+                        <div class="mb-md">
+                            {{ star_rating_display(post.rating) }}
+                        </div>
+                        
+                        {% if post.content %}
+                            <p class="body-md mb-md">{{ post.content }}</p>
+                        {% endif %}
+
+                        <div class="flex --flex-start mb-lg">
+                            <a class="secondary-btn mr-sm" href="#">Update</a>
+                            {{ delete_button(url('reviews:delete', args=[post.id]), csrf_input, 'review') }}
+                        </div>
+                    </div>
+
+<!--                ticket related to review -->
+                    <div class="classic_card p-md" style="background-color: var(--color-grey-light);">
+                        <header class="flex --space-between --align-center mb-sm">
+                            <small class="body-xs semi-bold">Ticket - {{ post.ticket.user.username }}</small>
+                            <time class="body-2xs help-text">{{ post.ticket.time_created.strftime('%d.%m.%Y à %H:%M') }}</time>
+                        </header>
+                        
+                        <h5 class="card-title-md mb-sm">{{ post.ticket.title }}</h5>
+                        
+                        {% if post.ticket.content %}
+                            <p class="body-sm mb-sm">{{ post.ticket.content }}</p>
+                        {% endif %}
+                        
+                        {% if post.ticket.image %}
+                            <div class="ticket-image">
+                                <img src="{{ post.ticket.image.url }}" alt="Ticket image" class="border-radius-md" style="max-width: 200px; height: auto;">
+                            </div>
+                        {% endif %}
+                    </div>
+
+                {% else %}
+<!--                display a ticket alone -->
+                    <header class="flex --space-between --align-center mb-md">
+                        <h3 class="headline-lg">You have published a ticket</h3>
+                        <time class="body-xs help-text">{{ post.time_created.strftime('%d.%m.%Y à %H:%M') }}</time>
+                    </header>
+
+                    <div>
+                        <h4 class="card-title-lg mb-sm">{{ post.title }}</h4>
+                        
+                        {% if post.content %}
+                            <p class="body-md mb-md">{{ post.content }}</p>
+                        {% endif %}
+                        
+                        {% if post.image %}
+                            <div class="mb-md">
+                                <img src="{{ post.image.url }}" alt="Ticket image" class="border-radius-md" style="max-width: 200px; height: auto;">
+                            </div>
+                        {% endif %}
+
+                        <div class="flex --flex-start">
+                            <a class="secondary-btn mr-sm" href="#">Update</a>
+                            {{ delete_button(url('tickets:delete', args=[post.id]), csrf_input, 'ticket') }}
+                        </div>
+                    </div>
+                {% endif %}
+            </article>
+        {% endfor %}
+
+<!--     Pagination -->
+        {% if is_paginated %}
+            <nav class="flex --center mt-xl width-100" aria-label="Page navigation">
+                {% if page_obj.has_previous %}
+                    <a class="secondary-btn mr-sm" href="?page=1">First</a>
+                    <a class="secondary-btn mr-sm" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                {% endif %}
+                
+                <span class="body-md semi-bold ml-sm mr-sm">Page {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+                
+                {% if page_obj.has_next %}
+                    <a class="secondary-btn ml-sm" href="?page={{ page_obj.next_page_number }}">Next</a>
+                    <a class="secondary-btn ml-sm" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+                {% endif %}
+            </nav>
+        {% endif %}
+
+    {% else %}
+        <div class="classic_card p-2xl text-align-center">
+            <h3 class="headline-lg mb-lg">You did not publish any post</h3>
+            <p class="body-md help-text mb-lg">Create a ticket to ask for a review.</p>
+            <a class="primary-btn" href="#">Create a ticket</a>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}
