@@ -7,6 +7,7 @@ from django.views.generic import CreateView, ListView
 
 from reviews.models import Review
 from tickets.models import Ticket
+
 from .form import CreateSubscriptionForm
 from .models import Subscription
 
@@ -55,18 +56,14 @@ class UserPostsView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         user = self.request.user
 
-        user_reviews = Review.objects.filter(user=user).select_related('ticket', 'user')
-        user_tickets = Ticket.objects.filter(user=user).select_related('user').prefetch_related('reviews')
+        user_reviews = Review.objects.filter(user=user).select_related("ticket", "user")
+        user_tickets = Ticket.objects.filter(user=user).select_related("user").prefetch_related("reviews")
 
-        posts = sorted(
-            [*user_reviews, *user_tickets],
-            key=lambda x: x.time_created,
-            reverse=True
-            )
+        posts = sorted([*user_reviews, *user_tickets], key=lambda x: x.time_created, reverse=True)
 
         return posts
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['user'] = self.request.user
+        context["user"] = self.request.user
         return context
