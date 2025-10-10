@@ -7,7 +7,7 @@
         {% if user.is_authenticated %}
             <form method="post" action="{{ url('authentication:logout') }}">
                 {{ csrf_input|safe }}
-                {{ action_buttons(primary_text="Se déconnecter") }}
+                {{ action_button(primary_text="Se déconnecter") }}
             </form>
         {% else %}
             <a href="{{ url('authentication:login')}}">Se connecter</a>

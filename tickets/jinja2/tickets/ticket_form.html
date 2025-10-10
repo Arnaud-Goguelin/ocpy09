@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% from 'macros/form_macros.html' import render_field %}
-{% from 'macros/button_macros.html' import action_buttons %}
+{% from 'macros/button_macros.html' import action_button %}
 
 {% block title %}
     {% if ticket %}Modifier un ticket{% else %}Créer un ticket{% endif %} - LitReview
@@ -40,9 +40,9 @@
         {% endif %}
 
 <!--        actions buttons-->
-        {{ action_buttons(
+        {{ action_button(
             primary_text=("Modifier" if ticket else "Envoyer"),
-            cancel_url=url('tickets:list'),
+            cancel_url=url('tickets:create'),
             cancel_text="Annuler"
         ) }}
     </form>

@@ -2,7 +2,7 @@
 {% extends 'base.html' %}
 
 {% from 'macros/form_macros.html' import render_field %}
-{% from 'macros/button_macros.html' import action_buttons %}
+{% from 'macros/button_macros.html' import action_button %}
 
 {% block title %}Inscription - LitReview{% endblock %}
 
@@ -33,7 +33,7 @@
                 </div>
             {% endif %}
 
-            {{ action_buttons(
+            {{ action_button(
                 primary_text="S'inscrire",
                 cancel_url=url('authentication:login'),
                 cancel_text="Déjà un compte ? Se connecter"
