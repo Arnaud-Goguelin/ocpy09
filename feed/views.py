@@ -51,6 +51,7 @@ class SubscriptionLandingView(LoginRequiredMixin, CreateView):
 class UserPostsView(LoginRequiredMixin, ListView):
     template_name = "feed/user_posts.html"
     context_object_name = "posts"
+    # TODO: pagination won't work because of merging 2 queries, we may limit the list
     paginate_by = 10
 
     def get_queryset(self):
