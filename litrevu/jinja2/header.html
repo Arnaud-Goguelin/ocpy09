@@ -1,6 +1,8 @@
 <header class="header flex --space-between p-md">
     <h1 class="headline-xl"><a href="#">LITReview</a></h1>
-    <p class="ml-3xl"> Welcome {{ user.username }} !</p>
+    {% if user.is_authenticated %}
+        <p class="ml-3xl"> Welcome {{ user.username }} !</p>
+    {% endif %}
     <nav class="header-nav flex">
             <a class="ml-lg" href="{{ url('feed:feed_posts') }}">Feed</a>
             <a class="ml-lg" href="{{ url('feed:user_posts') }}">Posts</a>
