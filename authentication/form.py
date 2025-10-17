@@ -14,7 +14,7 @@ class CustomUserCreationForm(UserCreationForm):
         max_length=150,
         widget=forms.TextInput(
             attrs={
-                "placeholder": "Bob",
+                "placeholder": "Your pseudo",
                 "id": "id_username_signup",
             }
         ),
@@ -22,7 +22,7 @@ class CustomUserCreationForm(UserCreationForm):
     password1 = forms.CharField(
         widget=forms.PasswordInput(
             attrs={
-                "placeholder": "mot de passe long et à multiples caractères",
+                "placeholder": "long password with multiples characters",
                 "id": "id_password_signup_1",
             }
         )
@@ -30,7 +30,7 @@ class CustomUserCreationForm(UserCreationForm):
     password2 = forms.CharField(
         widget=forms.PasswordInput(
             attrs={
-                "placeholder": "répéter mot de passe",
+                "placeholder": "repeat the password",
                 "id": "id_password_signup_2",
             }
         )
@@ -44,10 +44,8 @@ class CustomUserCreationForm(UserCreationForm):
         username = self.cleaned_data.get("username")
 
         if User.objects.filter(username=username).exists():
-            logger.warning(f"Attemps to create a new account with an existing username: {username}")
             raise forms.ValidationError("This user name already exists.")
 
-        logger.info(f"Username validated in signup for: {username}")
         return username
 
     def clean_password2(self):
@@ -59,5 +57,4 @@ class CustomUserCreationForm(UserCreationForm):
 
     def save(self, commit=True):
         user = super().save(commit=commit)
-        logger.info(f"New user created: {user.username}")
         return user
