@@ -13,9 +13,9 @@
 
 {% block content %}
 <section class="flex --column --align-start">
-    <h2 class="headline-xl mb-lg">Connexion</h2>
+    <h2 class="headline-xl mb-lg">Connection</h2>
     <div class="flex">
-        <a class="primary-btn mr-3xl" href="{{ url('authentication:signup') }}">Inscrivez-vous maintenant</a>
+        <a class="primary-btn mr-3xl" href="{{ url('authentication:signup') }}">Register now</a>
         <form class="flex --column --space-evenly --align-start" method="post">
             {{ csrf_input|safe }}
 <!--        username field-->
@@ -31,7 +31,7 @@
                 </div>
             {% endif %}
 
-            {{ action_button(primary_text="Se connecter") }}
+            {{ action_button(primary_text="Log in") }}
         </form>
     </div>
 </section>

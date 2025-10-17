@@ -4,7 +4,7 @@
 {% from 'macros/button_macros.html' import action_button %}
 
 {% block title %}
-    {% if ticket %}Modifier un ticket{% else %}Créer un ticket{% endif %} - LitReview
+    {% if ticket %}Update a{% else %}Create a{% endif %} ticket - LitReview
 {% endblock %}
 
 {% block css %}
@@ -15,7 +15,7 @@
 {% block content %}
 <section class="flex --column --align-start">
     <h2 class="headline-xl mb-lg">
-        {% if ticket %}Modifier un ticket{% else %}Créer un ticket{% endif %}
+        {% if ticket %}Update a{% else %}Create a{% endif %} ticket
     </h2>
 
     <form class="form-global width-100" method="post" enctype="multipart/form-data">
@@ -41,9 +41,9 @@
 
 <!--        actions buttons-->
         {{ action_button(
-            primary_text=("Modifier" if ticket else "Envoyer"),
+            primary_text=("Update" if ticket else "Post"),
             cancel_url=url('tickets:create'),
-            cancel_text="Annuler"
+            cancel_text="Cancel"
         ) }}
     </form>
 </section>

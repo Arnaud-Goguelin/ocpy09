@@ -39,12 +39,11 @@ class SubscriptionLandingView(LoginRequiredMixin, CreateView):
         return context
 
     def form_valid(self, form):
-        messages.success(self.request, f"You now follow {form.cleaned_data['username']} !")
-        logger.info(f"Attempt successful from {self.request.user.username} to follow {form.cleaned_data['username']}")
+        messages.success(self.request, f"{self.request.user.username} now follow {form.cleaned_data['username']} !")
         return super().form_valid(form)
 
     def form_invalid(self, form):
-        logger.warning(f"Attempt from {self.request.user.username} to follow {form.data['username']} failed.")
+        logger.error(f"Attempt from {self.request.user.username} to follow {form.data['username']} failed.")
         return super().form_invalid(form)
 
 
@@ -52,6 +51,7 @@ class UserPostsView(LoginRequiredMixin, ListView):
     template_name = "feed/user_posts.html"
     context_object_name = "posts"
     # TODO: pagination won't work because of merging 2 queries, we may limit the list
+    # TODO: add update button in template
     paginate_by = 10
 
     def get_queryset(self):
@@ -83,7 +83,6 @@ class FeedPostsView(LoginRequiredMixin, ListView):
             "followed_id",
             flat=True,  # avoid a list of tuples, result will be a list of ids
         )
-        print(users_ids_followed_by_current_user)
 
         users_ids_to_get_posts_from = [current_user.id, *users_ids_followed_by_current_user]
 
