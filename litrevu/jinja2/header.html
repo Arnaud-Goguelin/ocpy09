@@ -3,7 +3,7 @@
     <p class="ml-3xl"> Welcome {{ user.username }} !</p>
     <nav class="header-nav flex">
             <a class="ml-lg" href="{{ url('feed:feed_posts') }}">Feed</a>
-            <a class="ml-lg" href="{{ url('tickets:create') }}">Posts</a>
+            <a class="ml-lg" href="{{ url('feed:user_posts') }}">Posts</a>
             <a class="ml-lg" href="{{ url('feed:subscriptions') }}">Subscription</a>
         {% if user.is_authenticated %}
             <form class="ml-lg" method="post" action="{{ url('authentication:logout') }}">
