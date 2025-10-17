@@ -17,7 +17,9 @@ logger = logging.getLogger("authentication")
 class CustomLoginView(LoginView):
     template_name = "authentication/login.html"
     redirect_authenticated_user = True
-    success_url = reverse_lazy("feed:subscriptions")
+
+    def get_success_url(self):
+        return reverse_lazy("feed:feed_posts")
 
     def form_valid(self, form):
         return super().form_valid(form)
