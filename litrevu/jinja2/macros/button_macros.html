@@ -1,7 +1,7 @@
 {# templates/jinja2/macros/button_macros.html #}
 
 <!--standard button macro-->
-{% macro action_buttons(primary_text="Send", primary_type="submit", cancel_url=None, cancel_text="Cancel",
+{% macro action_button(primary_text="Send", primary_type="submit", cancel_url=None, cancel_text="Cancel",
 cancel_class="primary-btn") %}
 <div class="flex --flex-start mb-md">
     {% if cancel_url %}
@@ -11,4 +11,15 @@ cancel_class="primary-btn") %}
         {{ primary_text }}
     </button>
 </div>
+{% endmacro %}
+
+<!--delete button with confirmation-->
+{% macro delete_button(action_url, csrf_token, item_type="item", button_text="Delete", css_class="secondary-btn") %}
+<form method="post" action="{{ action_url }}" style="display: inline;">
+    {{ csrf_token|safe }}
+    <button type="submit" class="{{ css_class }}"
+            onclick="return confirm('Are you sure you want to delete this {{ item_type }}?')">
+        {{ button_text }}
+    </button>
+</form>
 {% endmacro %}

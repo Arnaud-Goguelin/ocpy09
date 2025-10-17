@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% from 'macros/form_macros.html' import render_field %}
-{% from 'macros/button_macros.html' import action_buttons %}
+{% from 'macros/button_macros.html' import action_button %}
 {% from 'macros/rating_macros.html' import star_rating_field %}
 
 {% block title %}
@@ -76,7 +76,7 @@
             </div>
         {% endif %}
 
-        {{ action_buttons(
+        {{ action_button(
             primary_text="Send",
             cancel_url=url('tickets:list'),
             cancel_text="Cancel"

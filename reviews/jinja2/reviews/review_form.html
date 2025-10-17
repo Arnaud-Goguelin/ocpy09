@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% from 'macros/form_macros.html' import render_field %}
-{% from 'macros/button_macros.html' import action_buttons %}
+{% from 'macros/button_macros.html' import action_button %}
 {% from 'macros/rating_macros.html' import star_rating_field %}
 
 {% block title %}
@@ -56,7 +56,7 @@
         {% endif %}
 
 <!--        actions buttons-->
-        {{ action_buttons(
+        {{ action_button(
             primary_text=("Update" if review else "Send"),
             cancel_url=url('feed:subscriptions'),
             cancel_text="Cancel"

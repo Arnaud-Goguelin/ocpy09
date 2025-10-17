@@ -3,6 +3,7 @@ from django.db import models
 
 
 class Subscription(models.Model):
+    # follower = all the users followed by one user
     follower = models.ForeignKey(
         # in literevu.settings.py AUTH_USER_MODEL = "users.User"
         # so foreing key is "users.User"
@@ -10,8 +11,17 @@ class Subscription(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name="following",
+        # understand here: on user following many users
     )
-    followed = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="followers")
 
+    # followed = all the users following one user
+    followed = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="followers",
+        # understand here: the many followers of one user
+    )
+
+    # this unique constraint ensure that a user can't follow twice the same user'
     class Meta:
         unique_together = ("follower", "followed")
