@@ -110,9 +110,9 @@
 
     {% else %}
         <div class="classic_card p-2xl text-align-center">
-            <h3 class="headline-lg mb-lg">You did not publish any post</h3>
+            <h3 class="headline-lg mb-lg">You, or your the others users you follow, did not publish any post</h3>
             <p class="body-md help-text mb-lg">Create a ticket to ask for a review.</p>
-            <a class="primary-btn" href="#">Create a ticket</a>
+            <a class="primary-btn" href="{{ url('tickets:create') }}">Create a ticket</a>
         </div>
     {% endif %}
 </section>
