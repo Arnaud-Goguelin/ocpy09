@@ -1,21 +1,21 @@
 /* Montserrat */
 @font-face {
     font-family: 'Montserrat';
-    src: url('litrevu/static/styles/fonts/montserrat/Montserrat-Bold.woff2') format('woff2');
+    src: url('/static/styles/fonts/montserrat/Montserrat-Bold.woff2') format('woff2');
     font-weight: bold;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'Montserrat';
-    src: url('litrevu/static/styles/fonts/montserrat/Montserrat-SemiBold.woff2') format('woff2');
+    src: url('/static/styles/fonts/montserrat/Montserrat-SemiBold.woff2') format('woff2');
     font-weight: 600;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'Montserrat';
-    src: url('litrevu/static/styles/fonts/montserrat/Montserrat-Medium.woff2') format('woff2');
+    src: url('/static/styles/fonts/montserrat/Montserrat-Medium.woff2') format('woff2');
     font-weight: 500;
     font-style: normal;
 }
@@ -23,21 +23,21 @@
 /* Nunito Sans */
 @font-face {
     font-family: 'Nunito Sans';
-    src: url('litrevu/static/styles/fonts/nunito-sans/NunitoSans_10pt-Bold.woff2') format('woff2');
+    src: url('/static/styles/fonts/nunito-sans/NunitoSans_10pt-Bold.woff2') format('woff2');
     font-weight: bold;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'Nunito Sans';
-    src: url('litrevu/static/styles/fonts/nunito-sans/NunitoSans_10pt-SemiBold.woff2') format('woff2');
+    src: url('/static/styles/fonts/nunito-sans/NunitoSans_10pt-SemiBold.woff2') format('woff2');
     font-weight: 600;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'Nunito Sans';
-    src: url('litrevu/static/styles/fonts/nunito-sans/NunitoSans_10pt-Regular.woff2') format('woff2');
+    src: url('/static/styles/fonts/nunito-sans/NunitoSans_10pt-Regular.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
 }
