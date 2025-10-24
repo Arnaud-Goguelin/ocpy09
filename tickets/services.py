@@ -1,7 +1,7 @@
 import logging
 
 from django.contrib.auth import get_user_model
-from django.db import transaction
+from django.db import DatabaseError, transaction
 from django.forms import inlineformset_factory
 
 from reviews.form import ReviewForm
@@ -59,26 +59,36 @@ class TicketReviewService:
                 ticket.user = user
                 ticket.save()
 
-                # Process review formset
-                if review_formset.is_valid():
-                    # pass above Ticket instance to ReviewFormSet instance retrieved in context
-                    review_formset.instance = ticket
-                    # Review instances are already linked to Ticket instance thanks to inlineformset_factory
-                    reviews = review_formset.save(commit=False)
-
-                    for review in reviews:
-                        review.user = user
-                        review.save()
-
-                    return True, ticket, errors
-
-                else:
+                # Validate review formset
+                if not review_formset.is_valid():
+                    # collect errors
                     errors.extend(review_formset.non_form_errors())
                     for form in review_formset:
                         if form.errors:
-                            errors.extend(form.errors.values())
+                            # extract error messages
+                            for field, error_list in form.errors.items():
+                                errors.append(f"{field}: {', '.join(error_list)}")
 
-                    return False, None, errors
+                    logger.error(f"Review formset validation failed: {errors}")
+
+                    # raise exception to rollback transaction
+                    raise DatabaseError("Review validation failed")
+
+                # Process review formset
+                # pass above Ticket instance to ReviewFormSet instance retrieved in context
+                review_formset.instance = ticket
+                # Review instances are already linked to Ticket instance thanks to inlineformset_factory
+                reviews = review_formset.save(commit=False)
+
+                for review in reviews:
+                    review.user = user
+                    review.save()
+
+                return True, ticket, errors
+
+        except DatabaseError:
+            # rollback transaction and return error message
+            return False, None, errors
 
         except Exception as error:
             logger.error(f"Error creating ticket with review for user {user.username}: {error}")
@@ -102,30 +112,39 @@ class TicketReviewService:
                 # Save the ticket form (self.object in view is already set by UpdateView)
                 updated_ticket = ticket_form.save()
 
-                # validate and save Review instance
-                if review_formset.is_valid():
-                    # Review instances are already linked to Ticket instance thanks to inlineformset_factory
-                    reviews = review_formset.save(commit=False)
-
-                    # Update user for any new reviews (though in update mode, reviews should already exist)
-                    for review in reviews:
-                        if not review.user_id:  # Only set user if not already set
-                            review.user = updated_ticket.user
-                        review.save()
-
-                    # Handle many-to-many relationships if any
-                    review_formset.save_m2m()
-
-                    return True, updated_ticket, errors
-
-                else:
+                # Validate review formset
+                if not review_formset.is_valid():
+                    # collect errors
                     errors.extend(review_formset.non_form_errors())
                     for form in review_formset:
                         if form.errors:
-                            errors.extend(form.errors.values())
+                            # extract error messages
+                            for field, error_list in form.errors.items():
+                                errors.append(f"{field}: {', '.join(error_list)}")
 
-                    logger.warning(f"Review formset validation failed during update: {errors}")
-                    return False, None, errors
+                    logger.error(f"Review formset validation failed: {errors}")
+
+                    # raise exception to rollback transaction
+                    raise DatabaseError("Review validation failed")
+
+                # save Review instance
+                # Review instances are already linked to Ticket instance thanks to inlineformset_factory
+                reviews = review_formset.save(commit=False)
+
+                # Update user for any new reviews (though in update mode, reviews should already exist)
+                for review in reviews:
+                    if not review.user_id:  # Only set user if not already set
+                        review.user = updated_ticket.user
+                    review.save()
+
+                # Handle many-to-many relationships if any
+                review_formset.save_m2m()
+
+                return True, updated_ticket, errors
+
+        except DatabaseError:
+            # rollback transaction and return error message
+            return False, None, errors
 
         except Exception as error:
             logger.error(f"Error updating ticket with review: {error}")
@@ -150,7 +169,9 @@ class TicketReviewService:
             context["review_formset"] = formset_class(request.POST, instance=instance)
         else:
             context["review_formset"] = formset_class(instance=instance)
-
+        for form in context["review_formset"]:
+            print(f"Rating field name: {form['rating'].name}")
+            print(f"Rating field id: {form['rating'].id_for_label}")
         context["title"] = title
 
         return context
