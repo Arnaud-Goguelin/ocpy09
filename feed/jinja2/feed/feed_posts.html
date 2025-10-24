@@ -28,7 +28,14 @@
                 {% if post.__class__.__name__ == "Review" %}
 <!--                 displaying review and its ticket -->
                     <header class="flex --space-between --align-center mb-md">
-                        <h3 class="headline-lg">You have published a review</h3>
+                        <h3 class="headline-lg">
+                            {% if user == post.user %}
+                                You
+                            {% else %}
+                                {{ post.user.username }}
+                            {% endif %}
+                            have published a review
+                        </h3>
                         <time class="body-xs help-text">{{ post.time_created.strftime('%d.%m.%Y à %H:%M') }}</time>
                     </header>
 
@@ -72,7 +79,14 @@
                 {% else %}
 <!--                display a ticket alone -->
                     <header class="flex --space-between --align-center mb-md">
-                        <h3 class="headline-lg">You have published a ticket</h3>
+                        <h3 class="headline-lg">
+                            {% if user == post.user %}
+                                You
+                            {% else %}
+                                {{ post.user.username }}
+                            {% endif %}
+                            have published a ticket
+                        </h3>
                         <time class="body-xs help-text">{{ post.time_created.strftime('%d.%m.%Y à %H:%M') }}</time>
                     </header>
 
