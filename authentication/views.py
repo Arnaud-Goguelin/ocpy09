@@ -19,6 +19,8 @@ class CustomLoginView(LoginView):
     redirect_authenticated_user = True
 
     def get_success_url(self):
+        # it is necessary to overwrite get_success_url in login view as priorité order for this particular view has
+        # changed in django
         return reverse_lazy("feed:feed_posts")
 
     def form_valid(self, form):
@@ -34,9 +36,6 @@ class CustomLoginView(LoginView):
 
 class CustomLogoutView(LogoutView):
     next_page = reverse_lazy("authentication:login")
-
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
 
 
 class SignUpView(CreateView):
