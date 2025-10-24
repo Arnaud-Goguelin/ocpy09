@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
 from django.forms import inlineformset_factory
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, DeleteView, DetailView, UpdateView
+from django.views.generic import CreateView, DeleteView, UpdateView
 
 from reviews.form import ReviewForm
 from reviews.models import Review
@@ -162,25 +162,25 @@ class TicketReviewCreateView(LoginRequiredMixin, CreateView):
 
 class TicketReviewUpdateView(LoginRequiredMixin, UpdateView):
     """
-        View for updating an existing ticket with an associated review.
+    View for updating an existing ticket with an associated review.
 
-        This class-based view allows users who are logged in to update an existing ticket
-        and its associated review. It utilizes a formset to handle the review
-        update alongside the ticket. Upon successful submission, the view saves the ticket
-        and its associated review(s) and redirects to the specified success URL.
+    This class-based view allows users who are logged in to update an existing ticket
+    and its associated review. It utilizes a formset to handle the review
+    update alongside the ticket. Upon successful submission, the view saves the ticket
+    and its associated review(s) and redirects to the specified success URL.
 
-        It ensures atomicity during ticket and review update, so if any part of the
-        transaction fails, no changes are committed to the database.
+    It ensures atomicity during ticket and review update, so if any part of the
+    transaction fails, no changes are committed to the database.
 
-        :ivar model: The model associated with the view, which is `Ticket`.
-        :type model: Model
-        :ivar form_class: The form used for updating a ticket.
-        :type form_class: ModelForm
-        :ivar template_name: The path to the template used to render this view.
-        :type template_name: str
-        :ivar success_url: The URL to redirect to on successful update of the ticket.
-        :type success_url: str
-        """
+    :ivar model: The model associated with the view, which is `Ticket`.
+    :type model: Model
+    :ivar form_class: The form used for updating a ticket.
+    :type form_class: ModelForm
+    :ivar template_name: The path to the template used to render this view.
+    :type template_name: str
+    :ivar success_url: The URL to redirect to on successful update of the ticket.
+    :type success_url: str
+    """
 
     model = Ticket
     form_class = CustomTicketForm
@@ -201,7 +201,7 @@ class TicketReviewUpdateView(LoginRequiredMixin, UpdateView):
             min_num=1,  # min 1 review required
             validate_min=True,
             can_delete=False,
-            )
+        )
 
     def get_queryset(self):
         """
