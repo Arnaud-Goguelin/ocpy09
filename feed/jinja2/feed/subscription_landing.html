@@ -14,11 +14,11 @@
 
 {% block content %}
 <section class="flex --column --align-start">
-    <h2 class="headline-xl mb-lg">Gestion des abonnements</h2>
+    <h2 class="headline-xl mb-lg">Subscriptions management</h2>
 
     <!-- Formulaire pour s'abonner -->
     <div class="mb-xl">
-        <h3 class="headline-lg mb-md">Suivre un utilisateur</h3>
+        <h3 class="headline-lg mb-md">Follow a user</h3>
         <form class="form-global width-80" method="post">
 
             {{ csrf_input|safe }}
@@ -32,19 +32,19 @@
                 </div>
             {% endif %}
 
-            {{ action_button(primary_text="S'abonner") }}
+            {{ action_button(primary_text="Subscribe") }}
         </form>
     </div>
 
     <!-- Liste des utilisateurs que je suis -->
     <div class="mb-xl">
-        <h3 class="headline-lg mb-md">Mes abonnements</h3>
+        <h3 class="headline-lg mb-md">My subsciptions</h3>
         {% if following %}
-            <p>Vous suivez {{ following|length }} utilisateur·trice{% if following|length > 1 %}s{% endif %}.</p>
+            <p>You follow {{ following|length }} user{% if following|length > 1 %}s{% endif %}.</p>
         {% endif %}
         <div>
             {% if not following %}
-                <p>Vous ne suivez personne pour le moment.</p>
+                <p>You do not follow anyone.</p>
             {% else %}
                 {% for subscription in following %}
                     <div class="flex --space-between --align-center mb-sm p-md border">
@@ -57,13 +57,13 @@
 
     <!-- Liste de mes abonnés -->
     <div class="mb-xl">
-        <h3 class="headline-lg mb-md">Mes abonnés</h3>
+        <h3 class="headline-lg mb-md">My followers</h3>
         {% if followers %}
-            <p>{{ followers|length }} utilisateur·trice{% if following|length > 1 %}s{% endif %} vous suivent actuellement</p>
+            <p>{{ followers|length }} user{% if following|length > 1 %}s{% endif %} follow you actually.</p>
         {% endif %}
         <div>
             {% if not followers %}
-                <p>Personne ne vous suit pour le moment.</p>
+                <p>No one follow you.</p>
             {% else %}
                 {% for subscription in followers %}
                     <div class="flex --space-between --align-center mb-sm p-md border">
