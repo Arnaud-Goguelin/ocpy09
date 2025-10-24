@@ -50,7 +50,7 @@
 <!--        actions buttons-->
         {{ action_button(
             primary_text=("Update" if ticket else "Post"),
-            cancel_url=url('tickets:create'),
+            cancel_url=url('feed:feed_posts'),
             cancel_text="Cancel"
         ) }}
     </form>
