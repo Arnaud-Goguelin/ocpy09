@@ -53,7 +53,6 @@ class UserPostsView(LoginRequiredMixin, ListView):
     # pagination won't work because of merging 2 queryset with not same attributes
     # normalize them (create a dict) would be too complex as we would loose relationship between objects
 
-
     def get_queryset(self):
         current_user = self.request.user
 
