@@ -37,7 +37,7 @@
                         {% endif %}
 
                         <div class="flex --flex-start mb-lg">
-                            <a class="secondary-btn mr-sm" href="{{ url('tickets:edit_with_review', pk=post.pk) }}">Update</a>
+                            <a class="secondary-btn mr-sm" href="{{ url('tickets:edit_with_review', args=[post.pk]) }}">Update</a>
                             {{ delete_button(url('reviews:delete', args=[post.id]), csrf_input, 'review') }}
                         </div>
                     </div>
@@ -83,7 +83,7 @@
                         {% endif %}
 
                         <div class="flex --flex-start">
-                            <a class="secondary-btn mr-sm" href="{{ url('tickets:edit', pk=post.pk)) }}">Update</a>
+                            <a class="secondary-btn mr-sm" href="{{ url('tickets:edit', args=[post.pk]) }}">Update</a>
                             {{ delete_button(url('tickets:delete', args=[post.id]), csrf_input, 'ticket') }}
                         </div>
                     </div>
