@@ -14,3 +14,6 @@ __pycache__/
 # Ignore virtual environments
 venv/
 env/
+
+# ignore data uploaded by user
+media/*
