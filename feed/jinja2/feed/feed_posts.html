@@ -13,7 +13,14 @@
 
 {% block content %}
 <section class="flex --column --align-start">
-    <h2 class="headline-xl mb-xl">Your posts</h2>
+    <h2 class="headline-xl mb-xl">Your feed</h2>
+
+    {% if user.is_authenticated %}
+        <div class="mb-xl">
+            <a class="primary-btn mr-3xl" href="{{ url('tickets:create') }}">Create a ticket</a>
+            <a class="primary-btn" href="{{ url('tickets:create_with_review') }}">Create a review</a>
+        </div>
+    {% endif %}
 
     {% if posts %}
         {% for post in posts %}
