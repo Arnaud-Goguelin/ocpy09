@@ -26,9 +26,17 @@
 <!--        content field-->
         {{ render_field(form.content, css_class="from-text-area", rows=6) }}
 
+        {% if ticket and ticket.image %}
+        <div class="current-image mt-sm">
+            <p class="body mb-sm">Current image:</p>
+            <img src="{{ ticket.image.url }}" alt="Current ticket image" style="max-width: 200px; height: auto;" class="border-radius-md">
+        </div>
+        {% endif %}
+
 <!--        import image field-->
         {{ render_field(form.image, css_class="form-input", accept="image/webp,image/png"
 ) }}
+
 
 <!--        error displaying in form-->
         {% if form.non_field_errors() %}
