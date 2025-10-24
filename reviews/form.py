@@ -1,4 +1,5 @@
 from django import forms
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 from .models import Review
 
@@ -17,8 +18,9 @@ class ReviewForm(forms.ModelForm):
     )
 
     rating = forms.IntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(5)],
         widget=forms.Select(
-            choices=[(i, f"{i} star{'s' if i > 1 else ''}") for i in range(0, 6)],
+            choices=[(i, f"{i} star{'s' if i > 1 else ''}") for i in range(1, 6)],
             attrs={
                 "class": "form-control",
                 "id": "id_review_rating",
