@@ -2,7 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, UpdateView
-
+from litrevu.mixins import UserOwnershipMixin
 from tickets.models import Ticket
 
 from .form import ReviewForm
@@ -30,7 +30,7 @@ class ReviewCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class ReviewUpdateView(LoginRequiredMixin, UpdateView):
+class ReviewUpdateView(LoginRequiredMixin, UserOwnershipMixin, UpdateView):
     model = Review
     template_name = "reviews/review_form.html"
     form_class = ReviewForm
@@ -43,16 +43,9 @@ class ReviewUpdateView(LoginRequiredMixin, UpdateView):
             context["ticket"] = self.object.ticket
         return context
 
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        return queryset.filter(user=self.request.user)
 
-
-class ReviewDeleteView(LoginRequiredMixin, DeleteView):
+class ReviewDeleteView(LoginRequiredMixin, UserOwnershipMixin, DeleteView):
     model = Review
     template_name = "reviews/reviews_confirm_delete.html"
     context_object_name = "review"
     success_url = reverse_lazy("feed:user_posts")
-
-    def get_queryset(self):
-        return Review.objects.filter(user=self.request.user)
