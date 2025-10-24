@@ -17,3 +17,6 @@ env/
 
 # ignore data uploaded by user
 media/*
+
+# ignore local dev DB
+db.sqlite3
