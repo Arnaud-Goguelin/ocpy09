@@ -1,12 +1,9 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db import transaction
-from django.forms import inlineformset_factory
+from django.db.models import QuerySet
+from django.http import HttpRequest
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, UpdateView
-
-from reviews.form import ReviewForm
-from reviews.models import Review
 
 from .form import CustomTicketForm
 from .models import Ticket
@@ -21,10 +18,13 @@ class UserTicketMixin:
     access their own tickets (UpdateView, DeleteView, etc.)
     """
 
-    def get_queryset(self):
+    request: "HttpRequest"
+
+    def get_queryset(self) -> "QuerySet":
         """Filter queryset to only include tickets owned by the current user."""
         queryset = super().get_queryset()
         return queryset.filter(user=self.request.user)
+
 
 class TicketCreateView(LoginRequiredMixin, CreateView):
     model = Ticket
@@ -79,8 +79,9 @@ class TicketReviewCreateView(LoginRequiredMixin, CreateView):
         POST request or a GET request, and set the ReviewFormSet accordingly.
         """
         context = super().get_context_data(**kwargs)
-        return TicketReviewService.prepare_context(context, self.ReviewFormSet, "Create Ticket with Review",
-                                                   self.request, self.object)
+        return TicketReviewService.prepare_context(
+            context, self.ReviewFormSet, "Create Ticket with Review", self.request, self.object
+        )
 
     def form_valid(self, form):
         """
@@ -94,17 +95,12 @@ class TicketReviewCreateView(LoginRequiredMixin, CreateView):
         # Thus instanciate review_formset here with instance=None is more explicit and comprehensive.
         review_formset = self.ReviewFormSet(self.request.POST, instance=None)
 
-        success, ticket, errors = TicketReviewService.create_ticket_with_review(
-            form, review_formset, self.request.user
-            )
+        success, ticket, errors = TicketReviewService.create_ticket_with_review(form, review_formset, self.request.user)
 
         if success:
             self.object = ticket
             # reminder: parent form_valid method return success message and redirect to success_url
-            messages.success(
-                self.request,
-                f'Ticket "{ticket.title}" and its review created successfully.'
-            )
+            messages.success(self.request, f'Ticket "{ticket.title}" and its review created successfully.')
             return super().form_valid(form)
         else:
             # Add service errors to form
@@ -131,14 +127,15 @@ class TicketReviewUpdateView(LoginRequiredMixin, UserTicketMixin, UpdateView):
         # no need of empty form in update mode
         self.ReviewFormSet = TicketReviewService.review_formset(nb_of_empty_form=0)
 
-
     def get_context_data(self, **kwargs):
         """
         Get the context data for the view and update it based on whether there is
         POST request or a GET request, and set the ReviewFormSet accordingly.
         """
         context = super().get_context_data(**kwargs)
-        return TicketReviewService.prepare_context(context, self.ReviewFormSet, "Update Ticket with Review", self.object)
+        return TicketReviewService.prepare_context(
+            context, self.ReviewFormSet, "Update Ticket with Review", self.object
+        )
 
     def form_valid(self, form):
         """
@@ -148,15 +145,10 @@ class TicketReviewUpdateView(LoginRequiredMixin, UserTicketMixin, UpdateView):
         # For UpdateView, use the existing ticket instance
         review_formset = self.ReviewFormSet(self.request.POST, instance=self.object)
 
-        success, ticket, errors = TicketReviewService.update_ticket_with_review(
-            self.object, form, review_formset
-            )
+        success, ticket, errors = TicketReviewService.update_ticket_with_review(self.object, form, review_formset)
 
         if success:
-            messages.success(
-                self.request,
-                f'Ticket "{ticket.title}" and its review updated successfully.'
-                )
+            messages.success(self.request, f'Ticket "{ticket.title}" and its review updated successfully.')
             return super().form_valid(form)
         else:
             for error in errors:

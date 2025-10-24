@@ -1,5 +1,4 @@
 import logging
-from typing import Optional, Tuple
 
 from django.contrib.auth import get_user_model
 from django.db import transaction
@@ -7,8 +6,9 @@ from django.forms import inlineformset_factory
 
 from reviews.form import ReviewForm
 from reviews.models import Review
-from .form import CustomTicketForm
+
 from .models import Ticket
+
 
 User = get_user_model()
 logger = logging.getLogger("tickets")
@@ -21,7 +21,7 @@ class TicketReviewService:
     """
 
     @staticmethod
-    def review_formset(nb_of_empty_form : int):
+    def review_formset(nb_of_empty_form: int):
         """Create and return a review formset for ticket-review operations."""
         return inlineformset_factory(
             parent_model=Ticket,
@@ -33,10 +33,10 @@ class TicketReviewService:
             min_num=1,
             validate_min=True,
             can_delete=False,
-            )
+        )
 
     @staticmethod
-    def create_ticket_with_review(ticket_form, review_formset, user) -> Tuple[bool, Optional[Ticket], list]:
+    def create_ticket_with_review(ticket_form, review_formset, user) -> tuple[bool, Ticket | None, list]:
         """
         Create a ticket with an associated review in a single transaction.
 
@@ -85,7 +85,7 @@ class TicketReviewService:
             return False, None, [f"An error occurred: {error}"]
 
     @staticmethod
-    def update_ticket_with_review(ticket, ticket_form, review_formset) -> Tuple[bool, Optional[Ticket], list]:
+    def update_ticket_with_review(ticket, ticket_form, review_formset) -> tuple[bool, Ticket | None, list]:
         """
         Update a ticket with its associated review in a single transaction.
 
@@ -109,7 +109,7 @@ class TicketReviewService:
 
                     # Update user for any new reviews (though in update mode, reviews should already exist)
                     for review in reviews:
-                        if not review.user_id: # Only set user if not already set
+                        if not review.user_id:  # Only set user if not already set
                             review.user = updated_ticket.user
                         review.save()
 
@@ -132,7 +132,7 @@ class TicketReviewService:
             return False, None, [f"An error occurred: {error}"]
 
     @staticmethod
-    def prepare_context(context : dict, formset_class, title: str, request, instance=None):
+    def prepare_context(context: dict, formset_class, title: str, request, instance=None):
         """
         Prepare review formset for context based on request type.
 
