@@ -4,26 +4,10 @@ from django.db.models import QuerySet
 from django.http import HttpRequest
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, UpdateView
-
+from litrevu.mixins import UserOwnershipMixin
 from .form import CustomTicketForm
 from .models import Ticket
 from .services import TicketReviewService
-
-
-class UserTicketMixin:
-    """
-    Mixin that filters tickets to only show those belonging to the current user.
-
-    This mixin should be used with views that need to ensure users can only
-    access their own tickets (UpdateView, DeleteView, etc.)
-    """
-
-    request: "HttpRequest"
-
-    def get_queryset(self) -> "QuerySet":
-        """Filter queryset to only include tickets owned by the current user."""
-        queryset = super().get_queryset()
-        return queryset.filter(user=self.request.user)
 
 
 class TicketCreateView(LoginRequiredMixin, CreateView):
@@ -37,7 +21,7 @@ class TicketCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class TicketUpdateView(LoginRequiredMixin, UserTicketMixin, UpdateView):
+class TicketUpdateView(LoginRequiredMixin, UserOwnershipMixin, UpdateView):
     model = Ticket
     template_name = "tickets/ticket_form.html"
     form_class = CustomTicketForm
@@ -45,7 +29,7 @@ class TicketUpdateView(LoginRequiredMixin, UserTicketMixin, UpdateView):
     success_url = reverse_lazy("feed:user_posts")
 
 
-class TicketDeleteView(LoginRequiredMixin, UserTicketMixin, DeleteView):
+class TicketDeleteView(LoginRequiredMixin, UserOwnershipMixin, DeleteView):
     model = Ticket
     template_name = "tickets/ticket_confirm_delete.html"
     context_object_name = "ticket"
@@ -109,7 +93,7 @@ class TicketReviewCreateView(LoginRequiredMixin, CreateView):
             return super().form_invalid(form)
 
 
-class TicketReviewUpdateView(LoginRequiredMixin, UserTicketMixin, UpdateView):
+class TicketReviewUpdateView(LoginRequiredMixin, UserOwnershipMixin, UpdateView):
     """
     The TicketReviewUpdateView class allows updating a Ticket and its associated Review through
     a web form.
