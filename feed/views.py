@@ -50,9 +50,9 @@ class SubscriptionLandingView(LoginRequiredMixin, CreateView):
 class UserPostsView(LoginRequiredMixin, ListView):
     template_name = "feed/user_posts.html"
     context_object_name = "posts"
-    # TODO: pagination won't work because of merging 2 queries, we may limit the list
-    # TODO: add update button in template
-    paginate_by = 10
+    # pagination won't work because of merging 2 queryset with not same attributes
+    # normalize them (create a dict) would be too complex as we would loose relationship between objects
+
 
     def get_queryset(self):
         current_user = self.request.user
@@ -73,8 +73,8 @@ class UserPostsView(LoginRequiredMixin, ListView):
 class FeedPostsView(LoginRequiredMixin, ListView):
     template_name = "feed/feed_posts.html"
     context_object_name = "posts"
-    # TODO: pagination won't work because of merging 2 queries, we may limit the list
-    paginate_by = 10
+    # pagination won't work because of merging 2 queryset with not same attributes
+    # normalize them (create a dict) would be too complex as we would loose relationship between objects
 
     def get_queryset(self):
         current_user = self.request.user
