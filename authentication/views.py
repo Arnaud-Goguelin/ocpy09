@@ -19,7 +19,7 @@ class CustomLoginView(LoginView):
     redirect_authenticated_user = True
 
     def get_success_url(self):
-        # it is necessary to overwrite get_success_url in login view as priorité order for this particular view has
+        # it is necessary to overwrite get_success_url in login view as priority order for this particular view has
         # changed in django
         return reverse_lazy("feed:feed_posts")
 
