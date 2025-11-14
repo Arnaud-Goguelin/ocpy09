@@ -26,7 +26,7 @@ from litrevu import settings
 urlpatterns = [
     path("admin/", admin.site.urls),
     # --- Landing page : redirect to feed app ---
-    path("", RedirectView.as_view(url="/feed/", permanent=False), name="home"),
+    path("", RedirectView.as_view(url="/auth/login", permanent=False), name="home"),
     # --- Auth app ---
     path("auth/", include("authentication.urls")),
     # --- Tickets app ---

@@ -2,6 +2,7 @@ import logging
 
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.transaction import commit
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView
 
@@ -39,6 +40,13 @@ class SubscriptionLandingView(LoginRequiredMixin, CreateView):
         return context
 
     def form_valid(self, form):
+        user_to_follow = form.cleaned_data["username"]  # User instance
+        subscription = Subscription(
+            follower=self.request.user,
+            followed=user_to_follow
+            )
+        if commit:
+            subscription.save()
         messages.success(self.request, f"{self.request.user.username} now follow {form.cleaned_data['username']} !")
         return super().form_valid(form)
 
