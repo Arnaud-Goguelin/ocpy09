@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 
 {% from 'macros/form_macros.html' import render_field %}
-{% from 'macros/button_macros.html' import action_button %}
+{% from 'macros/button_macros.html' import action_button, delete_button %}
 
 {% block title %}
-    Abonnements - LitReview
+    Subscriptions - LitReview
 {% endblock %}
 
 {% block css %}
@@ -16,7 +16,7 @@
 <section class="flex --column --align-start">
     <h2 class="headline-xl mb-lg">Subscriptions management</h2>
 
-    <!-- Formulaire pour s'abonner -->
+    <!-- From to follow a user -->
     <div class="mb-xl">
         <h3 class="headline-lg mb-md">Follow a user</h3>
         <form class="form-global width-80" method="post">
@@ -36,7 +36,7 @@
         </form>
     </div>
 
-    <!-- Liste des utilisateurs que je suis -->
+    <!-- List of followings -->
     <div class="mb-xl">
         <h3 class="headline-lg mb-md">My subsciptions</h3>
         {% if following %}
@@ -49,13 +49,22 @@
                 {% for subscription in following %}
                     <div class="flex --space-between --align-center mb-sm p-md border">
                         <span>{{ subscription.followed.username }}</span>
+                        {{
+                        delete_button(
+                            url('feed:subscription_delete', args=[subscription.pk]),
+                            csrf_input,
+                            item_type="subscription",
+                            button_text="Unfollow",
+                            css_class="secondary-btn"
+                            )
+                        }}
                     </div>
                 {% endfor %}
             {% endif %}
         </div>
     </div>
 
-    <!-- Liste de mes abonnés -->
+    <!-- List of followers -->
     <div class="mb-xl">
         <h3 class="headline-lg mb-md">My followers</h3>
         {% if followers %}

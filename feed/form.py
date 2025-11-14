@@ -45,3 +45,16 @@ class CreateSubscriptionForm(forms.ModelForm):
             raise forms.ValidationError("You already follow this user.")
 
         return user_to_follow
+
+    def save(self, commit=True):
+        # Create the Subscription instance without saving yet
+        subscription = super().save(commit=False)
+
+        # Set the follower and followed
+        subscription.follower = self.user
+        subscription.followed = self.cleaned_data["username"]
+
+        if commit:
+            subscription.save()
+
+        return subscription

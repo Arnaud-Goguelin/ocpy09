@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.transaction import commit
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, ListView
+from django.views.generic import CreateView, DeleteView, ListView
 
 from reviews.models import Review
 from tickets.models import Ticket
@@ -20,7 +20,7 @@ class SubscriptionLandingView(LoginRequiredMixin, CreateView):
     template_name = "feed/subscription_landing.html"
     model = Subscription
     form_class = CreateSubscriptionForm
-    success_url = reverse_lazy("subscriptions")
+    success_url = reverse_lazy("feed:subscriptions")
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
@@ -40,13 +40,6 @@ class SubscriptionLandingView(LoginRequiredMixin, CreateView):
         return context
 
     def form_valid(self, form):
-        user_to_follow = form.cleaned_data["username"]  # User instance
-        subscription = Subscription(
-            follower=self.request.user,
-            followed=user_to_follow
-            )
-        if commit:
-            subscription.save()
         messages.success(self.request, f"{self.request.user.username} now follow {form.cleaned_data['username']} !")
         return super().form_valid(form)
 
@@ -54,6 +47,24 @@ class SubscriptionLandingView(LoginRequiredMixin, CreateView):
         logger.error(f"Attempt from {self.request.user.username} to follow {form.data['username']} failed.")
         return super().form_invalid(form)
 
+class SubscriptionDeleteView(LoginRequiredMixin, DeleteView):
+    """
+    View used to unsubscribe (delete a Subscription).
+    Only allows deletion of subscriptions where the current user is the follower.
+    """
+    model = Subscription
+    success_url = reverse_lazy("feed:subscriptions")
+
+    def get_queryset(self):
+        # Restrict deletion to the subscriptions of the logged-in user
+        return Subscription.objects.filter(follower=self.request.user)
+
+    def delete(self, request, *args, **kwargs):
+        subscription = self.get_object()
+        username = subscription.followed.username
+        response = super().delete(request, *args, **kwargs)
+        messages.success(request, f"You no longer follow {username}.")
+        return response
 
 class UserPostsView(LoginRequiredMixin, ListView):
     template_name = "feed/user_posts.html"
