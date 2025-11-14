@@ -50,10 +50,6 @@
                             <p class="body-md mb-md">{{ post.content }}</p>
                         {% endif %}
 
-                        <div class="flex --flex-start mb-lg">
-                            <a class="secondary-btn mr-sm" href="{{ url('tickets:edit_with_review', args=[post.pk]) }}">Update</a>
-                            {{ delete_button(url('reviews:delete', args=[post.id]), csrf_input, 'review') }}
-                        </div>
                     </div>
 
 <!--                ticket related to review -->
@@ -103,31 +99,18 @@
                             </div>
                         {% endif %}
 
+                        {% if user != post.user %}
                         <div class="flex --flex-start">
-                            <a class="secondary-btn mr-sm" href="{{ url('tickets:edit', args=[post.pk]) }}">Update</a>
+                            <a class="secondary-btn mr-sm" href="{{ url('review:create', args=[post.id]) }}">Create
+                                a review</a>
                             {{ delete_button(url('tickets:delete', args=[post.id]), csrf_input, 'ticket') }}
                         </div>
+                        {% endif %}
                     </div>
                 {% endif %}
             </article>
         {% endfor %}
 
-<!--     Pagination -->
-        {% if is_paginated %}
-            <nav class="flex --center mt-xl width-100" aria-label="Page navigation">
-                {% if page_obj.has_previous %}
-                    <a class="secondary-btn mr-sm" href="?page=1">First</a>
-                    <a class="secondary-btn mr-sm" href="?page={{ page_obj.previous_page_number }}">Previous</a>
-                {% endif %}
-
-                <span class="body-md semi-bold ml-sm mr-sm">Page {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
-
-                {% if page_obj.has_next %}
-                    <a class="secondary-btn ml-sm" href="?page={{ page_obj.next_page_number }}">Next</a>
-                    <a class="secondary-btn ml-sm" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
-                {% endif %}
-            </nav>
-        {% endif %}
 
     {% else %}
         <div class="classic_card p-2xl text-align-center">
