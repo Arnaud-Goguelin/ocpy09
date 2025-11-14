@@ -33,6 +33,12 @@
             <h3>Book/article</h3>
             {{ render_field(form.title, css_class="form-input") }}
             {{ render_field(form.content, css_class="from-text-area", rows=6) }}
+            {% if ticket and ticket.image %}
+                <div class="current-image mt-sm">
+                   <p class="body mb-sm">Current image:</p>
+                  <img src="{{ ticket.image.url }}" alt="Current ticket image" style="max-width: 200px; height: auto;" class="border-radius-md">
+                 </div>
+            {% endif %}
             {{ render_field(form.image, css_class="form-input", accept="image/webp,image/png") }}
         </div>
 

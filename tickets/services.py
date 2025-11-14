@@ -95,62 +95,6 @@ class TicketReviewService:
             return False, None, [f"An error occurred: {error}"]
 
     @staticmethod
-    def update_ticket_with_review(ticket, ticket_form, review_formset) -> tuple[bool, Ticket | None, list]:
-        """
-        Update a ticket with its associated review in a single transaction.
-
-        :param ticket: Existing ticket instance
-        :param ticket_form: Validated ticket form
-        :param review_formset: Review formset
-        :return: Tuple (success, ticket_instance, errors)
-        """
-        errors = []
-
-        try:
-            # use transaction.atomic context to rollback all database operations if an error occurs
-            with transaction.atomic():
-                # Save the ticket form (self.object in view is already set by UpdateView)
-                updated_ticket = ticket_form.save()
-
-                # Validate review formset
-                if not review_formset.is_valid():
-                    # collect errors
-                    errors.extend(review_formset.non_form_errors())
-                    for form in review_formset:
-                        if form.errors:
-                            # extract error messages
-                            for field, error_list in form.errors.items():
-                                errors.append(f"{field}: {', '.join(error_list)}")
-
-                    logger.error(f"Review formset validation failed: {errors}")
-
-                    # raise exception to rollback transaction
-                    raise DatabaseError("Review validation failed")
-
-                # save Review instance
-                # Review instances are already linked to Ticket instance thanks to inlineformset_factory
-                reviews = review_formset.save(commit=False)
-
-                # Update user for any new reviews (though in update mode, reviews should already exist)
-                for review in reviews:
-                    if not review.user_id:  # Only set user if not already set
-                        review.user = updated_ticket.user
-                    review.save()
-
-                # Handle many-to-many relationships if any
-                review_formset.save_m2m()
-
-                return True, updated_ticket, errors
-
-        except DatabaseError:
-            # rollback transaction and return error message
-            return False, None, errors
-
-        except Exception as error:
-            logger.error(f"Error updating ticket with review: {error}")
-            return False, None, [f"An error occurred: {error}"]
-
-    @staticmethod
     def prepare_context(context: dict, formset_class, title: str, request, instance=None):
         """
         Prepare review formset for context based on request type.
@@ -168,10 +112,12 @@ class TicketReviewService:
             # re display form with data from POST request in case or error and invalid form
             context["review_formset"] = formset_class(request.POST, instance=instance)
         else:
-            context["review_formset"] = formset_class(instance=instance)
-        for form in context["review_formset"]:
-            print(f"Rating field name: {form['rating'].name}")
-            print(f"Rating field id: {form['rating'].id_for_label}")
+            context["review_formset"] = formset_class(
+                request.POST or None,
+                instance=instance,
+                queryset=Review.objects.filter(ticket=instance),
+            )
+
         context["title"] = title
 
         return context
