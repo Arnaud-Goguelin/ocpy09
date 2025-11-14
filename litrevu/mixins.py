@@ -1,8 +1,9 @@
 from typing import TYPE_CHECKING
 
+
 if TYPE_CHECKING:
-    from django.http import HttpRequest
     from django.db.models import QuerySet
+    from django.http import HttpRequest
 
 
 class UserOwnershipMixin:
@@ -19,7 +20,7 @@ class UserOwnershipMixin:
     """
 
     request: "HttpRequest"
-    user_field: str = 'user'  # Personnalisable si le champ s'appelle autrement
+    user_field: str = "user"  # Personnalisable si le champ s'appelle autrement
 
     def get_queryset(self) -> "QuerySet":
         """Filter queryset to only include objects owned by the current user."""

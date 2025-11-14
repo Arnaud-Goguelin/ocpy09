@@ -1,10 +1,10 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import QuerySet
-from django.http import HttpRequest
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, UpdateView
+
 from litrevu.mixins import UserOwnershipMixin
+
 from .form import CustomTicketForm
 from .models import Ticket
 from .services import TicketReviewService

@@ -2,7 +2,6 @@ import logging
 
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.transaction import commit
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, ListView
 
@@ -47,11 +46,13 @@ class SubscriptionLandingView(LoginRequiredMixin, CreateView):
         logger.error(f"Attempt from {self.request.user.username} to follow {form.data['username']} failed.")
         return super().form_invalid(form)
 
+
 class SubscriptionDeleteView(LoginRequiredMixin, DeleteView):
     """
     View used to unsubscribe (delete a Subscription).
     Only allows deletion of subscriptions where the current user is the follower.
     """
+
     model = Subscription
     success_url = reverse_lazy("feed:subscriptions")
 
@@ -65,6 +66,7 @@ class SubscriptionDeleteView(LoginRequiredMixin, DeleteView):
         response = super().delete(request, *args, **kwargs)
         messages.success(request, f"You no longer follow {username}.")
         return response
+
 
 class UserPostsView(LoginRequiredMixin, ListView):
     template_name = "feed/user_posts.html"
