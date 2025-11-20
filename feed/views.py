@@ -119,14 +119,19 @@ class FeedPostsView(LoginRequiredMixin, ListView):
         )
 
         # Reviews in response to current user's tickets (even if reviewer is not followed)
-        reviews_on_current_user_tickets = Review.objects.filter(
-            ticket__user=current_user
-            ).exclude(
-            user_id__in=users_ids_to_get_posts_from  # Exclude already fetched reviews
-            ).select_related("ticket", "user")
+        reviews_on_current_user_tickets = (
+            Review.objects.filter(ticket__user=current_user)
+            .exclude(
+                user_id__in=users_ids_to_get_posts_from  # Exclude already fetched reviews
+            )
+            .select_related("ticket", "user")
+        )
 
-        posts = sorted([*reviews_on_current_user_tickets, *followed_users_reviews, *followed_users_tickets],
-                       key=lambda x: x.time_created, reverse=True)
+        posts = sorted(
+            [*reviews_on_current_user_tickets, *followed_users_reviews, *followed_users_tickets],
+            key=lambda x: x.time_created,
+            reverse=True,
+        )
 
         return posts
 
