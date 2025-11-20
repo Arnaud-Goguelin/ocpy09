@@ -23,10 +23,6 @@
     justify-content: space-evenly;
 }
 
-.flex.--space-around {
-    justify-content: space-around;
-}
-
 .flex.--flex-end {
     justify-content: flex-end;
 }
@@ -39,34 +35,10 @@
     align-items: start;
 }
 
-.flex.--align-stretch {
-    align-items: stretch;
-}
-
-.flex-el {
-    flex: 1;
-}
-
 .wrap {
     flex-wrap: wrap;
 }
 
-.max-width-60 {
-    max-width: 60%;
-}
-
-.max-width-50 {
-    max-width: 50%;
-}
-
 .text-align-center {
     text-align: center;
-}
-
-.text-align-right {
-    text-align: right;
-}
-
-.text-align-left {
-    text-align: left;
 }
