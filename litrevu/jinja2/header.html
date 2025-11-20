@@ -1,4 +1,4 @@
-<header class="header flex --space-between p-md">
+<header class="header flex --space-between p-md width-100">
     <h1 class="headline-xl"><a href="#">LITReview</a></h1>
     {% if user.is_authenticated %}
         <p class="ml-3xl"> Welcome {{ user.username }} !</p>
@@ -10,10 +10,10 @@
         {% if user.is_authenticated %}
             <form class="ml-lg" method="post" action="{{ url('authentication:logout') }}">
                 {{ csrf_input|safe }}
-                {{ action_button(primary_text="Logout") }}
+                {{ action_button(primary_text="Log out") }}
             </form>
         {% else %}
-            <a class="ml-lg" href="{{ url('authentication:login')}}">Login</a>
+            <a class="ml-lg" href="{{ url('authentication:login')}}">Log in</a>
         {% endif %}
     </nav>
 

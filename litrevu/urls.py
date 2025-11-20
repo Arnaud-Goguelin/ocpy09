@@ -15,15 +15,18 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 from django.views.generic import RedirectView
+
+from litrevu import settings
 
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     # --- Landing page : redirect to feed app ---
-    path("", RedirectView.as_view(url="/feed/", permanent=False), name="home"),
+    path("", RedirectView.as_view(url="/auth/login", permanent=False), name="home"),
     # --- Auth app ---
     path("auth/", include("authentication.urls")),
     # --- Tickets app ---
@@ -33,3 +36,7 @@ urlpatterns = [
     # --- Feed app ---
     path("feed/", include("feed.urls")),
 ]
+
+# serve images in debug mode from media folder on demand
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

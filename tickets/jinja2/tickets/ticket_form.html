@@ -4,7 +4,7 @@
 {% from 'macros/button_macros.html' import action_button %}
 
 {% block title %}
-    {% if ticket %}Modifier un ticket{% else %}Créer un ticket{% endif %} - LitReview
+    {% if ticket %}Update a{% else %}Create a{% endif %} ticket - LitReview
 {% endblock %}
 
 {% block css %}
@@ -15,20 +15,28 @@
 {% block content %}
 <section class="flex --column --align-start">
     <h2 class="headline-xl mb-lg">
-        {% if ticket %}Modifier un ticket{% else %}Créer un ticket{% endif %}
+        {% if ticket %}Update a{% else %}Create a{% endif %} ticket
     </h2>
 
-    <form class="form-global width-100" method="post" enctype="multipart/form-data">
+    <form class="form-global width-80" method="post" enctype="multipart/form-data">
         {{ csrf_input|safe }}
 <!--        title field-->
         {{ render_field(form.title, css_class="form-input") }}
 
 <!--        content field-->
-        {{ render_field(form.content, css_class="from-text-area", rows=6) }}
+        {{ render_field(form.content, css_class="form-text-area", rows=6) }}
+
+        {% if ticket and ticket.image %}
+        <div class="current-image mt-sm">
+            <p class="body mb-sm">Current image:</p>
+            <img src="{{ ticket.image.url }}" alt="Current ticket image" style="max-width: 200px; height: auto;" class="border-radius-md">
+        </div>
+        {% endif %}
 
 <!--        import image field-->
         {{ render_field(form.image, css_class="form-input", accept="image/webp,image/png"
 ) }}
+
 
 <!--        error displaying in form-->
         {% if form.non_field_errors() %}
@@ -41,9 +49,9 @@
 
 <!--        actions buttons-->
         {{ action_button(
-            primary_text=("Modifier" if ticket else "Envoyer"),
-            cancel_url=url('tickets:create'),
-            cancel_text="Annuler"
+            primary_text=("Update" if ticket else "Post"),
+            cancel_url=url('feed:feed_posts'),
+            cancel_text="Cancel"
         ) }}
     </form>
 </section>

@@ -22,16 +22,17 @@
     {% block css %}
     {% endblock %}
 </head>
-<body>
-{% include "header.html" %}
-    <div class="app-container">
-        <main>
-            <div class="p-2xl">
-            {% block content %}{% endblock %}
-            </div>
-        </main>
-    </div>
-
-{% include "footer.html" %}
-</body>
+    <body>
+        <div class="flex --column --space-between min-height-100-vh width-100-vw">
+            {% include "header.html" %}
+                <div class="app-container width-100">
+                    <main>
+                        <div class="p-3xl">
+                            {% block content %}{% endblock %}
+                        </div>
+                    </main>
+                </div>
+            {% include "footer.html" %}
+        </div>
+    </body>
 </html>

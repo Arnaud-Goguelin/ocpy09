@@ -14,11 +14,11 @@ class CreateSubscriptionForm(forms.ModelForm):
     username = forms.CharField(
         widget=forms.TextInput(
             attrs={
-                "placeholder": "Nom d'utilisateur à suivre",
+                "placeholder": "The user's name you want to follow",
                 "id": "id_subscription",
             }
         ),
-        label="Nom d'utilisateur",
+        label="username to follow",
     )
 
     class Meta:
@@ -34,32 +34,27 @@ class CreateSubscriptionForm(forms.ModelForm):
 
         try:
             user_to_follow = User.objects.get(username=username)
-            logger.info(f"User found: {username}")
         except User.DoesNotExist as error:
-            logger.warning(f"Attempt from {self.user.username} to follow {username}")
+            logger.error(f"User {username} does not found.")
             raise forms.ValidationError("This user does not exist.") from error
 
         if user_to_follow == self.user:
-            logger.warning(f"Attempt from {self.user.username} to follow itself.")
             raise forms.ValidationError("You can not follow yourself.")
 
         if self.user.check_if_following(user_to_follow):
-            logger.warning(f"Attempt from {self.user.username} to follow {username} twice.")
             raise forms.ValidationError("You already follow this user.")
 
-        logger.info(f"Attempt successful from {self.user.username} to follow {username}")
-        # TODO try to return Subscription instance directly
-        return username
+        return user_to_follow
 
-    # TODO: 'save' method could be done automatically by django
     def save(self, commit=True):
-        username = self.cleaned_data["username"]
-        user_to_follow = User.objects.get(username=username)
+        # Create the Subscription instance without saving yet
+        subscription = super().save(commit=False)
 
-        subscription = Subscription(follower=self.user, followed=user_to_follow)
+        # Set the follower and followed
+        subscription.follower = self.user
+        subscription.followed = self.cleaned_data["username"]
 
         if commit:
             subscription.save()
-            logger.info(f"Subscription created for {self.user.username} now following {username}")
 
         return subscription

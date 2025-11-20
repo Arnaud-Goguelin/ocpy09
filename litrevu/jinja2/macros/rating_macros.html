@@ -20,9 +20,16 @@
         {% endif %}
     </label>
 
-    <div class="star-rating-interactive" data-rating="{{ field.value() or 0 }}">
+    <div class="star-rating-interactive" data-rating="{{ field.value() or 1 }}">
         <!-- Hidden input to store value-->
-        <input type="hidden" name="{{ field.name }}" id="{{ field.id_for_label }}" value="{{ field.value() or 0 }}">
+        <!--        use html_name instead of name in order to get the full field name from django formset
+                    in this case it will be reviews-0-rating. thus django will be able to handle the field in
+                    formset and create correctly the instance of review -->
+        <input type="hidden"
+               name="{{ field.html_name }}"
+               id="{{ field.id_for_label }}"
+               value="{{ field.value() or 1 }}"
+        >
 
         <!-- interactive stars -->
         <div class="stars-container">

@@ -14,3 +14,9 @@ __pycache__/
 # Ignore virtual environments
 venv/
 env/
+
+# ignore data uploaded by user
+media/*
+
+# ignore local dev DB
+db.sqlite3

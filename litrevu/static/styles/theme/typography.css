@@ -29,13 +29,6 @@ body {
     line-height: var(--line-height-md);
 }
 
-.big-title {
-    font-family: var(--font-family-title), serif;
-    font-size: var(--font-size-2xl);
-    line-height: var(--line-height-2xl);
-    font-weight: var(--font-weight-bold);
-}
-
 .headline-xl {
     font-family: var(--font-family-title), serif;
     font-size: var(--font-size-xl);
@@ -57,20 +50,6 @@ body {
     font-weight: var(--font-weight-bold);
 }
 
-.headline-sm {
-    font-family: var(--font-family-title), serif;
-    font-size: var(--font-size-sm);
-    line-height: var(--line-height-sm);
-    font-weight: var(--font-weight-bold);
-}
-
-.card-title-xl {
-    font-family: var(--font-family-title), serif;
-    font-size: var(--font-size-xl);
-    line-height: var(--line-height-xl);
-    font-weight: var(--font-weight-bold);
-}
-
 .card-title-lg {
     font-family: var(--font-family-title), serif;
     font-size: var(--font-size-lg);
@@ -82,27 +61,6 @@ body {
     font-family: var(--font-family-title), serif;
     font-size: var(--font-size-md);
     line-height: var(--line-height-md);
-    font-weight: var(--font-weight-bold);
-}
-
-.card-title-sm {
-    font-family: var(--font-family-title), serif;
-    font-size: var(--font-size-sm);
-    line-height: var(--line-height-sm);
-    font-weight: var(--font-weight-bold);
-}
-
-.card-title-xs {
-    font-family: var(--font-family-title), serif;
-    font-size: var(--font-size-xs);
-    line-height: var(--line-height-xs);
-    font-weight: var(--font-weight-bold);
-}
-
-.card-title-2xs {
-    font-family: var(--font-family-title), serif;
-    font-size: var(--font-size-2xs);
-    line-height: var(--line-height-2xs);
     font-weight: var(--font-weight-bold);
 }
 
@@ -130,18 +88,6 @@ body {
     line-height: var(--line-height-xs);
 }
 
-.body-2xs {
-    font-family: var(--font-family-regular), serif;
-    font-size: var(--font-size-2xs);
-    line-height: var(--line-height-2xs);
-}
-
-.body-3xs {
-    font-family: var(--font-family-regular), serif;
-    font-size: var(--font-size-3xs);
-    line-height: var(--line-height-3xs);
-}
-
 .bold {
     font-weight: var(--font-weight-bold);
 }
@@ -150,14 +96,10 @@ body {
     font-weight: var(--font-weight-semi-bold);
 }
 
-.medium {
-    font-weight: var(--font-weight-medium);
-}
-
 .error-text{
     color: var(--color-error);
 }
 
 .help-text{
-    color: var(--color-grey);
+    color: var(--color-dark-cyan);
 }

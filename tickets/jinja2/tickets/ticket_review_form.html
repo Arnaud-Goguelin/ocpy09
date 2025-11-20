@@ -9,7 +9,6 @@
 {% endblock %}
 
 {% block css %}
-    <link rel="stylesheet" href="{{ static('css/ticket_form.css') }}">
     <link rel="stylesheet" href="{{ static('styles/components/button.css') }}">
     <link rel="stylesheet" href="{{ static('styles/components/form.css') }}">
     <link rel="stylesheet" href="{{ static('styles/components/star_rating.css') }}">
@@ -21,10 +20,10 @@
         {{ title }}
     </h2>
 
-    <form class="form-global width-100" method="post" enctype="multipart/form-data">
+    <form class="form-global width-80" method="post" enctype="multipart/form-data">
         {{ csrf_input|safe }}
 
-        <!-- Management form for formset (OBLIGATOIRE) -->
+        <!-- Management form for formset (OBLIGATORY) -->
         <div class="formset-management" style="display: none;">
             {{ review_formset.management_form }}
         </div>
@@ -33,7 +32,13 @@
         <div>
             <h3>Book/article</h3>
             {{ render_field(form.title, css_class="form-input") }}
-            {{ render_field(form.content, css_class="from-text-area", rows=6) }}
+            {{ render_field(form.content, css_class="form-text-area", rows=6) }}
+            {% if ticket and ticket.image %}
+                <div class="current-image mt-sm">
+                   <p class="body mb-sm">Current image:</p>
+                  <img src="{{ ticket.image.url }}" alt="Current ticket image" style="max-width: 200px; height: auto;" class="border-radius-md">
+                 </div>
+            {% endif %}
             {{ render_field(form.image, css_class="form-input", accept="image/webp,image/png") }}
         </div>
 
@@ -42,13 +47,13 @@
             <h3>Review</h3>
 
             {% for review_form in review_formset %}
-                {% for hidden in review_form.hidden_fields %}
+                {% for hidden in review_form.hidden_fields() %}
                     {{ hidden }}
                 {% endfor %}
 
                 {{ render_field(review_form.title, css_class="form-input") }}
                 {{ star_rating_field(review_form.rating) }}
-                {{ render_field(review_form.content, css_class="from-text-area", rows=4) }}
+                {{ render_field(review_form.content, css_class="form-text-area", rows=4) }}
 
                 {% if review_form.non_field_errors() %}
                     <div class="bold error-text mt-sm">
@@ -59,9 +64,9 @@
                 {% endif %}
             {% endfor %}
 
-            {% if review_formset.non_form_errors %}
+            {% if review_formset.non_form_errors() %}
                 <div class="bold error-text mt-sm">
-                    {% for error in review_formset.non_form_errors %}
+                    {% for error in review_formset.non_form_errors() %}
                         <div>{{ error }}</div>
                     {% endfor %}
                 </div>
@@ -77,8 +82,8 @@
         {% endif %}
 
         {{ action_button(
-            primary_text="Send",
-            cancel_url=url('tickets:list'),
+            primary_text="Post",
+            cancel_url=url('feed:feed_posts'),
             cancel_text="Cancel"
         ) }}
     </form>

@@ -7,4 +7,6 @@ a {
     text-decoration: none;
 }
 
-
+a:hover {
+    font-weight: bold;
+}
