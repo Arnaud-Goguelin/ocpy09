@@ -63,7 +63,7 @@ class Ticket(models.Model):
     @property
     def has_review(self):
         """Check if this ticket already has at least one review."""
-        return self.reviews.exists()
+        return self.review.exists()
 
     def save(self, *args, **kwargs):
         """Override save to also process image."""
