@@ -78,7 +78,7 @@ class UserPostsView(LoginRequiredMixin, ListView):
         current_user = self.request.user
 
         user_reviews = Review.objects.filter(user=current_user).select_related("ticket", "user")
-        user_tickets = Ticket.objects.filter(user=current_user).select_related("user").prefetch_related("reviews")
+        user_tickets = Ticket.objects.filter(user=current_user).select_related("user").prefetch_related("review")
 
         posts = sorted([*user_reviews, *user_tickets], key=lambda x: x.time_created, reverse=True)
 
@@ -111,13 +111,22 @@ class FeedPostsView(LoginRequiredMixin, ListView):
         followed_users_reviews = Review.objects.filter(user_id__in=users_ids_to_get_posts_from).select_related(
             "ticket", "user"
         )
+
         followed_users_tickets = (
             Ticket.objects.filter(user_id__in=users_ids_to_get_posts_from)
             .select_related("user")
-            .prefetch_related("reviews")
+            .prefetch_related("review")
         )
 
-        posts = sorted([*followed_users_reviews, *followed_users_tickets], key=lambda x: x.time_created, reverse=True)
+        # Reviews in response to current user's tickets (even if reviewer is not followed)
+        reviews_on_current_user_tickets = Review.objects.filter(
+            ticket__user=current_user
+            ).exclude(
+            user_id__in=users_ids_to_get_posts_from  # Exclude already fetched reviews
+            ).select_related("ticket", "user")
+
+        posts = sorted([*reviews_on_current_user_tickets, *followed_users_reviews, *followed_users_tickets],
+                       key=lambda x: x.time_created, reverse=True)
 
         return posts
 
