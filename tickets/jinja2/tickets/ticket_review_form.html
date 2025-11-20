@@ -32,7 +32,7 @@
         <div>
             <h3>Book/article</h3>
             {{ render_field(form.title, css_class="form-input") }}
-            {{ render_field(form.content, css_class="from-text-area", rows=6) }}
+            {{ render_field(form.content, css_class="form-text-area", rows=6) }}
             {% if ticket and ticket.image %}
                 <div class="current-image mt-sm">
                    <p class="body mb-sm">Current image:</p>
@@ -53,7 +53,7 @@
 
                 {{ render_field(review_form.title, css_class="form-input") }}
                 {{ star_rating_field(review_form.rating) }}
-                {{ render_field(review_form.content, css_class="from-text-area", rows=4) }}
+                {{ render_field(review_form.content, css_class="form-text-area", rows=4) }}
 
                 {% if review_form.non_field_errors() %}
                     <div class="bold error-text mt-sm">
