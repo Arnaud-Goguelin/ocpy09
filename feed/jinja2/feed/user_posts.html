@@ -43,8 +43,8 @@
 
                         <div class="flex --flex-start mb-lg">
                             <a class="secondary-btn mr-sm"
-                               href="{{ url('reviews:edit', args=[post.review.pk]) }}">Update</a>
-                            {{ delete_button(url('reviews:delete', args=[post.review.id]), csrf_input, 'review') }}
+                               href="{{ url('reviews:edit', args=[post.pk]) }}">Update</a>
+                            {{ delete_button(url('reviews:delete', args=[post.id]), csrf_input, 'review') }}
                         </div>
                     </div>
 

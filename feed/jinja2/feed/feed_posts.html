@@ -100,11 +100,12 @@
                         {% endif %}
 
                         {% if user != post.user %}
-                        <div class="flex --flex-start">
-                            <a class="secondary-btn mr-sm" href="{{ url('review:create', args=[post.id]) }}">Create
-                                a review</a>
-                            {{ delete_button(url('tickets:delete', args=[post.id]), csrf_input, 'ticket') }}
-                        </div>
+                            {% if not post.has_review %}
+                                <div class="flex --flex-start">
+                                    <a class="secondary-btn mr-sm" href="{{ url('reviews:create', args=[post.id]) }}">Create
+                                        a review</a>
+                                </div>
+                            {% endif %}
                         {% endif %}
                     </div>
                 {% endif %}

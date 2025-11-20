@@ -60,6 +60,11 @@ class Ticket(models.Model):
     def __str__(self):
         return f"Ticket: {self.title}"
 
+    @property
+    def has_review(self):
+        """Check if this ticket already has at least one review."""
+        return self.reviews.exists()
+
     def save(self, *args, **kwargs):
         """Override save to also process image."""
         # Process image only if it's a new upload
