@@ -1,4 +1,6 @@
 :root {
+    --spacing-5xl: 96px;
+    --spacing-4xl: 80px;
     --spacing-3xl: 64px;
     --spacing-2xl: 48px;
     --spacing-xl: 32px;
@@ -66,6 +68,9 @@
 /*  PADDINGS                */
 /* ************************ */
 
+.p-3xl {
+    padding: var(--spacing-3xl);
+}
 
 .p-2xl {
     padding: var(--spacing-2xl);
@@ -77,4 +82,12 @@
 
 .p-md {
     padding: var(--spacing-md);
+}
+
+.pr-5xl {
+    padding-right: var(--spacing-5xl);
+}
+
+.pl-5xl {
+    padding-left: var(--spacing-5xl);
 }

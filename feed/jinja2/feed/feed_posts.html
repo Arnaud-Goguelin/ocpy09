@@ -6,13 +6,14 @@
 {% block title %}Your posts{% endblock %}
 
 {% block css %}
+<link rel="stylesheet" href="{{ static('styles/css/base.css') }}">
 <link rel="stylesheet" href="{{ static('styles/components/button.css') }}">
 <link rel="stylesheet" href="{{ static('styles/components/card.css') }}">
 <link rel="stylesheet" href="{{ static('styles/components/star_rating.css') }}">
 {% endblock %}
 
 {% block content %}
-<section class="flex --column --align-start">
+<section class="flex --column">
     <h2 class="headline-xl mb-xl">Your feed</h2>
 
     {% if user.is_authenticated %}
@@ -24,7 +25,7 @@
 
     {% if posts %}
         {% for post in posts %}
-            <article class="classic_card p-lg mb-lg width-100">
+            <article class="classic_card p-lg mb-lg width-80">
                 {% if post.__class__.__name__ == "Review" %}
 <!--                 displaying review and its ticket -->
                     <header class="flex --space-between --align-center mb-md">
@@ -36,7 +37,7 @@
                             {% endif %}
                             have published a review
                         </h3>
-                        <time class="body-xs help-text">{{ post.time_created.strftime('%d.%m.%Y à %H:%M') }}</time>
+                        <time class="body-s help-text">{{ post.time_created.strftime('%d.%m.%Y à %H:%M') }}</time>
                     </header>
 
                     <div class="mb-lg">
@@ -47,7 +48,7 @@
                         </div>
 
                         {% if post.content %}
-                            <p class="body-md mb-md">{{ post.content }}</p>
+                            <p class="body-lg mb-md">{{ post.content }}</p>
                         {% endif %}
 
                     </div>
@@ -55,14 +56,15 @@
 <!--                ticket related to review -->
                     <div class="classic_card p-md" style="background-color: var(--color-grey-light);">
                         <header class="flex --space-between --align-center mb-sm">
-                            <small class="body-xs semi-bold">Ticket - {{ post.ticket.user.username }}</small>
-                            <time class="body-2xs help-text">{{ post.ticket.time_created.strftime('%d.%m.%Y à %H:%M') }}</time>
+                            <small class="body-md semi-bold">Ticket - {{ post.ticket.user.username }}</small>
+                            <time class="body-md help-text">{{ post.ticket.time_created.strftime('%d.%m.%Y à %H:%M')
+                                }}</time>
                         </header>
 
                         <h5 class="card-title-md mb-sm">{{ post.ticket.title }}</h5>
 
                         {% if post.ticket.content %}
-                            <p class="body-sm mb-sm">{{ post.ticket.content }}</p>
+                            <p class="body-md mb-sm">{{ post.ticket.content }}</p>
                         {% endif %}
 
                         {% if post.ticket.image %}
@@ -83,7 +85,7 @@
                             {% endif %}
                             have published a ticket
                         </h3>
-                        <time class="body-xs help-text">{{ post.time_created.strftime('%d.%m.%Y à %H:%M') }}</time>
+                        <time class="body-s help-text">{{ post.time_created.strftime('%d.%m.%Y à %H:%M') }}</time>
                     </header>
 
                     <div>

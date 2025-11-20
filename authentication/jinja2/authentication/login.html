@@ -11,11 +11,11 @@
 {% endblock %}
 
 {% block content %}
-<section class="flex --column --align-start">
+<section class="flex --column">
     <h2 class="headline-xl mb-lg">Connection</h2>
     <div class="flex">
         <a class="primary-btn mr-3xl" href="{{ url('authentication:signup') }}">Register now</a>
-        <form class="flex --column --space-evenly --align-start" method="post">
+        <form class="flex --column" method="post">
             {{ csrf_input|safe }}
 <!--        username field-->
             {{ render_field(form.username, css_class="form-input") }}

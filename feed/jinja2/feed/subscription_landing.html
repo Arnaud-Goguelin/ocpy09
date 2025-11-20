@@ -17,9 +17,9 @@
     <h2 class="headline-xl mb-lg">Subscriptions management</h2>
 
     <!-- From to follow a user -->
-    <div class="mb-xl">
+    <div class="mb-xl width-30">
         <h3 class="headline-lg mb-md">Follow a user</h3>
-        <form class="form-global width-80" method="post">
+        <form class="form-global" method="post">
 
             {{ csrf_input|safe }}
             {{ render_field(form.username, css_class="form-input") }}

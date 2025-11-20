@@ -1,4 +1,5 @@
 .app-container {
     background-color: var(--color-grey-light);
     color: var(--color-dark);
+    flex: 1;
 }

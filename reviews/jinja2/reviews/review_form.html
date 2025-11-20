@@ -35,7 +35,7 @@
         </div>
     {% endif %}
 
-    <form class="form-global width-100" method="post" enctype="multipart/form-data">
+    <form class="form-global width-80" method="post" enctype="multipart/form-data">
         {{ csrf_input|safe }}
 <!--        title field-->
         {{ render_field(form.title, css_class="form-input") }}
