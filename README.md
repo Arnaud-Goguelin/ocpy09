@@ -26,7 +26,22 @@ The application is developed following Django best practices for server-side ren
 
 ---
 
-## 🚀 Quick Start with Docker (Recommended)
+## 🚀 Quick Start
+
+### Justfile
+A [Justfile](https://github.com/casey/just) is provided to simplify the process of running.
+Use the following command to show all available commands:
+   ```bash
+   just --list
+   ```
+
+Use the following command to run the application in a docker container:
+   ```bash
+   just docker-up
+   # it runs: docker compose -f docker/compose.yml up --build
+   ```
+
+## 🐳 Quick Start with Docker (Recommended)
 
 ### Prerequisites
 
@@ -125,12 +140,7 @@ The SQLite database is persisted in the `data/` directory.
 
 ---
 
-## 📦 Project Structure
-
-
----
-
-## 🛠️ Technologies Used
+## 🛠️ Dependencies
 
 - **Framework**: Django 5.2.5
 - **Template Engine**: Jinja2
@@ -138,7 +148,9 @@ The SQLite database is persisted in the `data/` directory.
 - **Package Manager**: uv
 - **Containerization**: Docker & Docker Compose
 - **Image Processing**: Pillow
-
+- **main dev formater/linter**: ruff
+- **more popular code formatter for evaluation purposes**: black
+- **more popular linter for evaluation purposes**: flake8
 ---
 
 ## ⚠️ Important Notes
@@ -149,7 +161,8 @@ This application uses Django's built-in development server (`runserver`) for eas
 
 ### Security
 
-The `SECRET_KEY` in `settings.py` is exposed for development purposes only. In a production environment, this should be stored securely as an environment variable.
+The `SECRET_KEY` in `settings.py` is exposed for development purposes only. 
+In a production environment, this should be stored securely as an environment variable.
 
 ---
 
