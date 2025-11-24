@@ -6,6 +6,9 @@ LitRevu is a Django-based web application for requesting and publishing book rev
 This project was developed as an exercise of a training program focused on mastering Django framework and server-side 
 rendering techniques.
 
+As it is just an exercise, a command is already provided to create two test users.
+It will run automatically when the application is started in docker.
+
 ### Context
 
 This project dives into the world of Django, a powerful framework for creating web applications in Python. It uses server-side rendering to create dynamic and accessible user interfaces.
@@ -60,7 +63,7 @@ The application is developed following Django best practices for server-side ren
 
 ### Data Persistence
 
-The SQLite database is persisted in the `data/` directory. To reset the database, simply delete this directory and restart the container.
+The SQLite database is persisted in the `data/` directory.
 
 ---
 
