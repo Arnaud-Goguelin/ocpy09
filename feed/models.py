@@ -25,3 +25,6 @@ class Subscription(models.Model):
     # this unique constraint ensure that a user can't follow twice the same user'
     class Meta:
         unique_together = ("follower", "followed")
+
+    def __str__(self):
+        return f"{self.follower} is following {self.followed}"
