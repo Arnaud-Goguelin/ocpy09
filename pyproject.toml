@@ -11,14 +11,17 @@ authors = [
 requires-python = ">=3.12"
 dependencies = [
     "django ~= 5.2.5",
-    "jinja2>=3.1.6",
-    "pillow>=11.3.0",
+    "jinja2 ~= 3.1.6",
+    "pillow ~= 11.3.0",
     "django-extensions ~= 4.1"
 ]
 readme = "README.md"
 #===========================
 [dependency-groups]
 dev = [
+    "black ~= 25.11.0",
+    "flake8 ~= 6.1.0",
+    "flake8-django ~= 1.4",
     "ruff ~= 0.12.4",
 ]
 #===========================
@@ -82,3 +85,51 @@ known-first-party = ["src"]
 force-single-line = false
 lines-between-types = 1
 lines-after-imports = 2
+
+# === Black Configuration ===
+[tool.black]
+line-length = 120
+target-version = ['py312']
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+  | migrations
+)/
+'''
+
+# === Flake8 Configuration ===
+[tool.flake8]
+max-line-length = 120
+exclude = [
+    ".git",
+    "__pycache__",
+    ".venv",
+    "venv",
+    "env",
+    ".eggs",
+    "*.egg",
+    "build",
+    "dist",
+    "migrations",
+    "*/migrations/*",
+    ".tox",
+]
+ignore = [
+    "E203",  # whitespace before ':' (conflict avec Black)
+    "W503",  # line break before binary operator (old style)
+]
+per-file-ignores = [
+    "__init__.py:F401",
+    "settings.py:E501",
+    "*/migrations/*.py:E501",
+]

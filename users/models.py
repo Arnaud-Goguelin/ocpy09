@@ -23,3 +23,6 @@ class User(AbstractUser):
     @property
     def followers_count(self):
         return self.followers.count()
+
+    def __str__(self):
+        return f"{self.username}"

@@ -37,3 +37,6 @@ class Review(models.Model):
         ordering = ["-time_created"]
         verbose_name = "Review"
         verbose_name_plural = "Reviews"
+
+    def __str__(self):
+        return f"Review: {self.title}"

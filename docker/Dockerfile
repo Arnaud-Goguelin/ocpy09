@@ -35,20 +35,24 @@ ENV PATH="/usr/src/app/.venv/bin:$PATH"
 # Copy the application code
 COPY . .
 
+# Copy and set permissions for entrypoint script
+COPY docker/entrypoint.sh /usr/src/app/entrypoint.sh
+RUN chmod +x /usr/src/app/entrypoint.sh
+
 # Create directory for SQLite database and static files
 RUN mkdir -p /usr/src/app/data /usr/src/app/staticfiles
 
 # Collect static files and run migrations
 RUN python manage.py collectstatic --noinput
-RUN python manage.py migrate
 
-# Change ownership of data directory and db file
-RUN chown -R nonroot:nogroup /usr/src/app/data /usr/src/app/staticfiles
+# Change ownership of data directory, db file, staticfiles, and logs
+RUN chown -R nonroot:nogroup /usr/src/app/data /usr/src/app/staticfiles /usr/src/app/logs
 RUN if [ -f "db.sqlite3" ]; then chown nonroot:nogroup db.sqlite3; fi
+
 
 USER nonroot
 
 EXPOSE 8000
 
-# Start the Django application
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Start the Django application with its custom commands
+ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
